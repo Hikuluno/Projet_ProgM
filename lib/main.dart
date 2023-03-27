@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/multiplayer_screen.dart';
 import 'package:flutter_application_1/screens/solo_screen.dart';
 import './screens/home_screen.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomeScreen(),
         '/solo': (context) => const SoloScreen(),
+        '/multiplayer': (context) => MultiplayerScreen(),
       },
     );
   }
