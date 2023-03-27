@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,8 +11,8 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 10), // Ajoute un espace vertical de 10 pixels
-            ElevatedButton(
+            SizedBox(height: 10),
+            OutlinedButton(
               onPressed: () {
                 Navigator.pushNamed(
                   context,
@@ -20,14 +21,16 @@ class HomeScreen extends StatelessWidget {
               },
               child: Text('SOLO'),
             ),
-            SizedBox(height: 10), // Ajoute un espace vertical de 10 pixels
-            ElevatedButton(
+            SizedBox(height: 10),
+            OutlinedButton(
               onPressed: () {},
               child: Text('MULTIJOUEUR'),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {},
+            OutlinedButton(
+              onPressed: () {
+                SystemNavigator.pop();
+              },
               child: Text('EXIT'),
             ),
           ],

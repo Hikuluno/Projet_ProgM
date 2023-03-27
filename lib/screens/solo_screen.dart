@@ -10,12 +10,12 @@ class SoloScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
+            OutlinedButton(
               onPressed: () {},
               child: Text('CLASSIQUE'),
             ),
             SizedBox(height: 10), // Ajoute un espace vertical de 10 pixels
-            ElevatedButton(
+            OutlinedButton(
               onPressed: () {},
               child: Text('TRAIN'),
             ),
