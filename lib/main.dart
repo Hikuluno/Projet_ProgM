@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/solo_screen.dart';
 import './screens/home_screen.dart';
 
 void main() {
@@ -17,8 +18,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeScreen(title: 'Home page title'),
+      initialRoute: '/',
       debugShowCheckedModeBanner: false,
+      routes: {
+        '/': (context) => const HomeScreen(),
+        '/solo': (context) => const SoloScreen(),
+      },
     );
   }
 }
