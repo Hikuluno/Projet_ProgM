@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/multiplayer_screen.dart';
+import 'package:flutter_application_1/screens/games.dart';
 import 'package:flutter_application_1/screens/solo_screen.dart';
 import './screens/home_screen.dart';
 import './screens/quiz_question.dart';
@@ -15,17 +15,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Best Games',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeScreen(title: 'Home page title'),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => const HomeScreen(),
         '/solo': (context) => const SoloScreen(),
-        '/multiplayer': (context) => MultiplayerScreen(),
+        '/games': (context) => const Games(),
+        '/quiz': (context) => QuizPage(),
       },
     );
   }
