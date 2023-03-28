@@ -19,3 +19,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  # Declare your asset path here
+  assets:
+    - assets/quiz_data.json

@@ -1,0 +1,33 @@
+[
+    {
+      "question": "What is the capital of Togo?",
+      "options": [
+        "Lomé",
+        "London",
+        "New York",
+        "Berlin"
+      ],
+      "answer": 0
+    },
+    {
+      "question": "What is the currency of Japan?",
+      "options": [
+        "Dollar",
+        "Euro",
+        "Yen",
+        "Pound"
+      ],
+      "answer": 2
+    },
+    {
+      "question": "What is the largest country in the world?",
+      "options": [
+        "Russia",
+        "Canada",
+        "China",
+        "USA"
+      ],
+      "answer": 0
+    }
+  ]
+  
