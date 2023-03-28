@@ -20,12 +20,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomeScreen(title: 'Home page title'),
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => const HomeScreen(),
         '/solo': (context) => const SoloScreen(),
-        '/multiplayer': (context) => MultiplayerScreen(),
+        '/multiplayer': (context) => const MultiplayerScreen(),
       },
     );
   }

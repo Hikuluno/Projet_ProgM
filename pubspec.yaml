@@ -7,9 +7,10 @@ environment:
   sdk: ">=2.19.4 <3.0.0"
 
 dependencies:
+  filesystem_picker: ^3.1.0
   flutter:
     sdk: flutter
-  flutter_p2p: ^0.1.1
+  flutter_p2p_connection: ^2.0.1
 
 dev_dependencies:
   flutter_test:

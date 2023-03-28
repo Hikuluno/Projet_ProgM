@@ -23,7 +23,12 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 10),
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/multiplayer',
+                );
+              },
               child: Text('MULTIJOUEUR'),
             ),
             SizedBox(height: 10),
