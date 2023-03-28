@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       routes: {
+        '/': (context) => const HomeScreen(),
         '/solo': (context) => const SoloScreen(),
         '/multiplayer': (context) => const MultiplayerScreen(),
         '/games': (context) => const Games(),
