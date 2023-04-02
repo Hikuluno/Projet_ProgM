@@ -11,18 +11,18 @@ class SoloScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OutlinedButton(
+              onPressed: () {},
+              child: Text('CLASSIC'),
+            ),
+            SizedBox(height: 10), // Ajoute un espace vertical de 10 pixels
+            OutlinedButton(
               onPressed: () {
                 Navigator.pushNamed(
                   context,
                   '/games',
                 );
               },
-              child: Text('CLASSIQUE'),
-            ),
-            SizedBox(height: 10), // Ajoute un espace vertical de 10 pixels
-            OutlinedButton(
-              onPressed: () {},
-              child: Text('TRAIN'),
+              child: Text('TRAINING'),
             ),
           ],
         ),

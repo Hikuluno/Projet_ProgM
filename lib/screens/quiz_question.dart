@@ -58,6 +58,19 @@ class _QuizPageState extends State<QuizPage> {
           child: CircularProgressIndicator(),
         ),
       );
+    } else if (_currentQuestionIndex > _quizData.length - 1) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Quiz Game'),
+        ),
+        body: Center(
+            child: Text(
+          "No more questions !\nDamn you are such a genius",
+          style: TextStyle(
+            fontSize: 24.0,
+          ),
+        )),
+      );
     } else {
       final currentQuestion = _quizData[_currentQuestionIndex];
       final questionText = currentQuestion['question'] as String;

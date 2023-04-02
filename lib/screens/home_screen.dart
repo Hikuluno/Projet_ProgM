@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
                   '/multiplayer',
                 );
               },
-              child: Text('MULTIJOUEUR'),
+              child: Text('MULTIPLAYER'),
             ),
             SizedBox(height: 10),
             OutlinedButton(

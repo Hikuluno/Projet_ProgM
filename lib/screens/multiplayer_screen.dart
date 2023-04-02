@@ -262,14 +262,6 @@ class _MultiplayerScreen extends State<MultiplayerScreen>
             ),
             ElevatedButton(
               onPressed: () async {
-                snack((await _flutterP2pConnectionPlugin.checkLocationEnabled())
-                    ? "enabled"
-                    : "diabled");
-              },
-              child: const Text("check location enabled"),
-            ),
-            ElevatedButton(
-              onPressed: () async {
                 snack((await _flutterP2pConnectionPlugin.checkWifiEnabled())
                     ? "enabled"
                     : "diabled");
