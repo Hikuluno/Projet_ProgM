@@ -15,6 +15,9 @@ class _QuizPageState extends State<QuizPage> {
       _selectedOptionIndex; // The index of the selected option (null means no option is selected)
   bool _isAnsweredCorrectly =
       false; // Whether the selected option is the correct answer
+  int _score = 0;
+
+  bool _isTapped = false;
 
   Future<void> _loadQuizData() async {
     final String jsonString =
@@ -33,9 +36,13 @@ class _QuizPageState extends State<QuizPage> {
 
   void _selectOption(int? optionIndex) {
     setState(() {
+      _isTapped = true;
       _selectedOptionIndex = optionIndex;
       _isAnsweredCorrectly =
           optionIndex == _quizData[_currentQuestionIndex]['answer'];
+      if (_isAnsweredCorrectly) {
+        _score++; // Increment the score if the answer is correct
+      }
     });
   }
 
@@ -44,7 +51,12 @@ class _QuizPageState extends State<QuizPage> {
       _currentQuestionIndex++;
       _selectedOptionIndex = null; // Reset the selected option index
       _isAnsweredCorrectly = false; // Reset the answer status
+      _isTapped = false; // Reset the tapped status
     });
+  }
+
+  _QuizPageState() : super() {
+    _score = 0;
   }
 
   @override
@@ -53,6 +65,17 @@ class _QuizPageState extends State<QuizPage> {
       return Scaffold(
         appBar: AppBar(
           title: Text('Quiz Game'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Center(
+                child: Text(
+                  'Score: $_score',
+                  style: const TextStyle(fontSize: 18.0),
+                ),
+              ),
+            ),
+          ],
         ),
         body: Center(
           child: CircularProgressIndicator(),
@@ -62,10 +85,21 @@ class _QuizPageState extends State<QuizPage> {
       return Scaffold(
         appBar: AppBar(
           title: Text('Quiz Game'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Center(
+                child: Text(
+                  'Score: $_score',
+                  style: const TextStyle(fontSize: 18.0),
+                ),
+              ),
+            ),
+          ],
         ),
         body: Center(
             child: Text(
-          "No more questions !\nDamn you are such a genius",
+          _score == 2 ? "You are a genius!" : "You are a noob!",
           style: TextStyle(
             fontSize: 24.0,
           ),
@@ -78,6 +112,17 @@ class _QuizPageState extends State<QuizPage> {
       return Scaffold(
         appBar: AppBar(
           title: Text('Quiz Game'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Center(
+                child: Text(
+                  'Score: $_score',
+                  style: const TextStyle(fontSize: 18.0),
+                ),
+              ),
+            ),
+          ],
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +167,12 @@ class _QuizPageState extends State<QuizPage> {
                             ? _isAnsweredCorrectly
                                 ? Colors.green
                                 : Colors.red
-                            : Colors.white,
+                            : _isTapped &&
+                                    index ==
+                                        _quizData[_currentQuestionIndex]
+                                            ['answer']
+                                ? Colors.green
+                                : Colors.white,
                         borderRadius: BorderRadius.circular(8.0),
                         border: Border.all(color: Colors.grey),
                       ),
