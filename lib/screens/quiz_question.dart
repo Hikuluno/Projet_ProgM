@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
@@ -14,6 +16,7 @@ class _QuizPageState extends State<QuizPage> {
   List<Map<String, dynamic>> _quizData =
       []; // The list of quiz questions and answers
   int _currentQuestionIndex = 0; // The index of the current quiz question
+  final List<int> _alreadyAnsweredQuestionIndex = [];
   int?
       _selectedOptionIndex; // The index of the selected option (null means no option is selected)
   bool _isAnsweredCorrectly =
@@ -29,6 +32,9 @@ class _QuizPageState extends State<QuizPage> {
     setState(() {
       _quizData = quizList.cast<Map<String, dynamic>>();
     });
+    int length = _quizData.length;
+    print("lenght : $length");
+    _getRandomQuestion();
   }
 
   @override
@@ -51,11 +57,20 @@ class _QuizPageState extends State<QuizPage> {
 
   void _nextQuestion() {
     setState(() {
-      _currentQuestionIndex++;
+      _getRandomQuestion();
       _selectedOptionIndex = null; // Reset the selected option index
       _isAnsweredCorrectly = false; // Reset the answer status
       _isTapped = false; // Reset the tapped status
     });
+  }
+
+  void _getRandomQuestion() {
+    int randomInt = Random().nextInt(_quizData.length);
+    while (_alreadyAnsweredQuestionIndex.contains(randomInt)) {
+      randomInt = Random().nextInt(_quizData.length);
+    }
+    _currentQuestionIndex = randomInt;
+    _alreadyAnsweredQuestionIndex.add(_currentQuestionIndex);
   }
 
   _QuizPageState() : super() {
