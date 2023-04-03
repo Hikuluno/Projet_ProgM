@@ -35,8 +35,13 @@ class Games extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             OutlinedButton(
-              onPressed: () {},
-              child: const Text('GAME3'),
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/target_game',
+                );
+              },
+              child: const Text('TAP THE TARGET'),
             ),
             const SizedBox(height: 10),
             OutlinedButton(

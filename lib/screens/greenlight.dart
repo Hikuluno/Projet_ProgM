@@ -50,7 +50,7 @@ class _GreenLightState extends State<GreenLight> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     Text(
-                      'Tap to start',
+                      'Tap to play',
                       style: TextStyle(fontSize: 32, color: Colors.white),
                     ),
                     SizedBox(height: 32),
