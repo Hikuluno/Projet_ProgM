@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/games.dart';
+import 'package:flutter_application_1/screens/greenlight.dart';
 import 'package:flutter_application_1/screens/solo_screen.dart';
 import './screens/home_screen.dart';
 import './screens/quiz_question.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/multiplayer': (context) => const MultiplayerScreen(),
         '/games': (context) => const Games(),
         '/quiz': (context) => QuizPage(),
+        '/greenlight': (context) => const GreenLight(),
       },
     );
   }

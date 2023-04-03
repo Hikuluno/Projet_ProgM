@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             OutlinedButton(
               onPressed: () {
                 Navigator.pushNamed(
@@ -19,9 +19,9 @@ class HomeScreen extends StatelessWidget {
                   '/solo',
                 );
               },
-              child: Text('SOLO'),
+              child: const Text('SOLO'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             OutlinedButton(
               onPressed: () {
                 Navigator.pushNamed(
@@ -29,14 +29,14 @@ class HomeScreen extends StatelessWidget {
                   '/multiplayer',
                 );
               },
-              child: Text('MULTIPLAYER'),
+              child: const Text('MULTIPLAYER'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             OutlinedButton(
               onPressed: () {
                 SystemNavigator.pop();
               },
-              child: Text('EXIT'),
+              child: const Text('EXIT'),
             ),
           ],
         ),

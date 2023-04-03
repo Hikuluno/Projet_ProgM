@@ -8,13 +8,13 @@ class Games extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TRAINING'),
+        title: const Text('TRAINING'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             OutlinedButton(
               onPressed: () {
                 Navigator.pushNamed(
@@ -22,24 +22,29 @@ class Games extends StatelessWidget {
                   '/quiz',
                 );
               },
-              child: Text('QUIZ'),
+              child: const Text('QUIZ'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
+            OutlinedButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/greenlight',
+                );
+              },
+              child: const Text('GREENLIGHT'),
+            ),
+            const SizedBox(height: 10),
             OutlinedButton(
               onPressed: () {},
-              child: Text('GAME2'),
+              child: const Text('GAME3'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             OutlinedButton(
               onPressed: () {},
-              child: Text('GAME3'),
+              child: const Text('GAME4'),
             ),
-            SizedBox(height: 10),
-            OutlinedButton(
-              onPressed: () {},
-              child: Text('GAME4'),
-            ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
         ),
       ),

@@ -7,7 +7,7 @@ class SoloScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('SOLO'),
+        title: const Text('SOLO'),
       ),
       body: Center(
         child: Column(
@@ -15,9 +15,10 @@ class SoloScreen extends StatelessWidget {
           children: [
             OutlinedButton(
               onPressed: () {},
-              child: Text('CLASSIC'),
+              child: const Text('CLASSIC'),
             ),
-            SizedBox(height: 10), // Ajoute un espace vertical de 10 pixels
+            const SizedBox(
+                height: 10), // Ajoute un espace vertical de 10 pixels
             OutlinedButton(
               onPressed: () {
                 Navigator.pushNamed(
@@ -25,7 +26,7 @@ class SoloScreen extends StatelessWidget {
                   '/games',
                 );
               },
-              child: Text('TRAINING'),
+              child: const Text('TRAINING'),
             ),
           ],
         ),
