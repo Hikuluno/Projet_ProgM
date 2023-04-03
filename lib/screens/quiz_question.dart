@@ -65,9 +65,16 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void _getRandomQuestion() {
+    if (_alreadyAnsweredQuestionIndex.length > _quizData.length - 1) {
+      _currentQuestionIndex = 10000;
+      return;
+    }
     int randomInt = Random().nextInt(_quizData.length);
     while (_alreadyAnsweredQuestionIndex.contains(randomInt)) {
       randomInt = Random().nextInt(_quizData.length);
+      int l1 = _alreadyAnsweredQuestionIndex.length;
+      int l2 = _quizData.length;
+      print("l1 : $l1  et l2 : $l2");
     }
     _currentQuestionIndex = randomInt;
     _alreadyAnsweredQuestionIndex.add(_currentQuestionIndex);
