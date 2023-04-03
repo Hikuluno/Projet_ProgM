@@ -57,25 +57,28 @@ class _GreenLightState extends State<GreenLight> {
                 )),
               ),
             )
-          : GestureDetector(
-              onHorizontalDragUpdate: (details) {
-                if (details.delta.dx > 0) {
-                  // swipe to the right
-                  if (_isGreen) {
-                    // _scoreWidget.currentState
-                    //     .increment(); // increment the score
-                  }
-                  _updateColor();
-                } else if (details.delta.dx < 0) {
-                  // swipe to the left
-                  if (_isRed) {
-                    // _scoreWidget.currentState
-                    //     .increment(); // increment the score
-                  }
-                  _updateColor();
-                }
-              },
-              child: Container(color: _isGreen ? Colors.green : Colors.red)),
+          : Expanded(
+              child: GestureDetector(
+                  onPanUpdate: (details) {
+                    if (details.delta.dx > 0) {
+                      // swipe to the right
+                      if (_isGreen) {
+                        // _scoreWidget.currentState
+                        //     .increment(); // increment the score
+                      }
+                      _updateColor();
+                    } else if (details.delta.dx < 0) {
+                      // swipe to the left
+                      if (_isRed) {
+                        // _scoreWidget.currentState
+                        //     .increment(); // increment the score
+                      }
+                      _updateColor();
+                    }
+                  },
+                  child:
+                      Container(color: _isGreen ? Colors.green : Colors.red)),
+            ),
     );
   }
 
