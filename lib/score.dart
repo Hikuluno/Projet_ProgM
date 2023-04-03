@@ -1,55 +1,48 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// class ScoreWidget extends StatefulWidget {
-//   const ScoreWidget({Key? key}) : super(key: key);
+class ScoreWidget extends StatefulWidget {
+  ScoreWidget({Key? key}) : super(key: key);
 
-//   @override
-//   _ScoreWidgetState createState() => _ScoreWidgetState();
+  @override
+  ScoreWidgetState createState() => ScoreWidgetState();
+}
 
-//   // final GlobalKey<_ScoreWidgetState> _key = GlobalKey();
+class ScoreWidgetState extends State<ScoreWidget> {
+  late int _score;
 
-//   // Function() get onIncrement => _onIncrement;
-//   // Function() get onDecrement => _onDecrement;
+  @override
+  void initState() {
+    super.initState();
+    _score = 0;
+  }
 
-//   // void _onIncrement() {
-//   //   _ScoreWidgetState? state = key?.currentState as _ScoreWidgetState?;
-//   //   state?.increment();
-//   // }
+  int getScore() {
+    return _score;
+  }
 
-//   // void _onDecrement() {
-//   //   _ScoreWidgetState? state = _key.currentState as _ScoreWidgetState?;
-//   //   state?.decrement();
-//   // }
-// }
+  set value(int newValue) {
+    _score = newValue;
+  }
 
-// class _ScoreWidgetState extends State<ScoreWidget> {
-//   late int _score;
+  increment() {
+    setState(() {
+      _score++;
+    });
+  }
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     _score = 0;
-//   }
+  void decrement() {
+    if (_score > 0) {
+      setState(() {
+        _score--;
+      });
+    }
+  }
 
-//   set value(int newValue) {
-//     _score = newValue;
-//   }
-
-//   void increment() {
-//     _score++;
-//   }
-
-//   void decrement() {
-//     if (_score > 0) {
-//       _score--;
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       'Score: $_score',
-//       style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Score: $_score',
+      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    );
+  }
+}
