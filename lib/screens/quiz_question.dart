@@ -158,7 +158,11 @@ class _QuizPageState extends State<QuizPage> {
                   padding: const EdgeInsets.symmetric(
                       vertical: 8.0, horizontal: 16.0),
                   child: GestureDetector(
-                    onTap: () => _selectOption(index),
+                    onTap: () {
+                      if (!_isTapped) {
+                        _selectOption(index);
+                      }
+                    },
                     child: Container(
                       height: 50.0,
                       width: double.infinity,
