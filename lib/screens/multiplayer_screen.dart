@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-// https://pub.dev/packages/flutter_p2p_connection/example
+// https://pub.dev/packages/flutter_p2p_connection
 import 'dart:io';
 
 import 'package:filesystem_picker/filesystem_picker.dart';
@@ -169,7 +169,7 @@ class _MultiplayerScreen extends State<MultiplayerScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter p2p connection plugin'),
+        title: const Text('Multiplayer'),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -177,110 +177,110 @@ class _MultiplayerScreen extends State<MultiplayerScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-                "IP: ${wifiP2PInfo == null ? "null" : wifiP2PInfo?.groupOwnerAddress}"),
-            wifiP2PInfo != null
-                ? Text(
-                    "connected: ${wifiP2PInfo?.isConnected}, isGroupOwner: ${wifiP2PInfo?.isGroupOwner}, groupFormed: ${wifiP2PInfo?.groupFormed}, groupOwnerAddress: ${wifiP2PInfo?.groupOwnerAddress}, clients: ${wifiP2PInfo?.clients}")
-                : const SizedBox.shrink(),
-            const SizedBox(height: 10),
-            const Text("PEERS:"),
-            SizedBox(
-              height: 100,
-              width: MediaQuery.of(context).size.width,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: peers.length,
-                itemBuilder: (context, index) => Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => Center(
-                          child: AlertDialog(
-                            content: SizedBox(
-                              height: 200,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("name: ${peers[index].deviceName}"),
-                                  Text(
-                                      "address: ${peers[index].deviceAddress}"),
-                                  Text(
-                                      "isGroupOwner: ${peers[index].isGroupOwner}"),
-                                  Text(
-                                      "isServiceDiscoveryCapable: ${peers[index].isServiceDiscoveryCapable}"),
-                                  Text(
-                                      "primaryDeviceType: ${peers[index].primaryDeviceType}"),
-                                  Text(
-                                      "secondaryDeviceType: ${peers[index].secondaryDeviceType}"),
-                                  Text("status: ${peers[index].status}"),
-                                ],
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () async {
-                                  Navigator.of(context).pop();
-                                  bool? bo = await _flutterP2pConnectionPlugin
-                                      .connect(peers[index].deviceAddress);
-                                  snack("connected: $bo");
-                                },
-                                child: const Text("connect"),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Center(
-                        child: Text(
-                          peers[index]
-                              .deviceName
-                              .toString()
-                              .characters
-                              .first
-                              .toUpperCase(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                snack((await _flutterP2pConnectionPlugin.checkWifiEnabled())
-                    ? "enabled"
-                    : "diabled");
-              },
-              child: const Text("check wifi enabled"),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                print(
-                    await _flutterP2pConnectionPlugin.askLocationPermission());
-              },
-              child: const Text("ask location permission"),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                print(await _flutterP2pConnectionPlugin.askStoragePermission());
-              },
-              child: const Text("ask storage permission"),
-            ),
+            // Text(
+            //     "IP: ${wifiP2PInfo == null ? "null" : wifiP2PInfo?.groupOwnerAddress}"),
+            // wifiP2PInfo != null
+            //     ? Text(
+            //         "connected: ${wifiP2PInfo?.isConnected}, isGroupOwner: ${wifiP2PInfo?.isGroupOwner}, groupFormed: ${wifiP2PInfo?.groupFormed}, groupOwnerAddress: ${wifiP2PInfo?.groupOwnerAddress}, clients: ${wifiP2PInfo?.clients}")
+            //     : const SizedBox.shrink(),
+            // const SizedBox(height: 10),
+            // const Text("PEERS:"),
+            // SizedBox(
+            //   height: 100,
+            //   width: MediaQuery.of(context).size.width,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     itemCount: peers.length,
+            //     itemBuilder: (context, index) => Center(
+            //       child: GestureDetector(
+            //         onTap: () {
+            //           showDialog(
+            //             context: context,
+            //             builder: (context) => Center(
+            //               child: AlertDialog(
+            //                 content: SizedBox(
+            //                   height: 200,
+            //                   child: Column(
+            //                     mainAxisAlignment: MainAxisAlignment.center,
+            //                     crossAxisAlignment: CrossAxisAlignment.start,
+            //                     children: [
+            //                       Text("name: ${peers[index].deviceName}"),
+            //                       Text(
+            //                           "address: ${peers[index].deviceAddress}"),
+            //                       Text(
+            //                           "isGroupOwner: ${peers[index].isGroupOwner}"),
+            //                       Text(
+            //                           "isServiceDiscoveryCapable: ${peers[index].isServiceDiscoveryCapable}"),
+            //                       Text(
+            //                           "primaryDeviceType: ${peers[index].primaryDeviceType}"),
+            //                       Text(
+            //                           "secondaryDeviceType: ${peers[index].secondaryDeviceType}"),
+            //                       Text("status: ${peers[index].status}"),
+            //                     ],
+            //                   ),
+            //                 ),
+            //                 actions: [
+            //                   TextButton(
+            //                     onPressed: () async {
+            //                       Navigator.of(context).pop();
+            //                       bool? bo = await _flutterP2pConnectionPlugin
+            //                           .connect(peers[index].deviceAddress);
+            //                       snack("connected: $bo");
+            //                     },
+            //                     child: const Text("connect"),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //         child: Container(
+            //           height: 80,
+            //           width: 80,
+            //           decoration: BoxDecoration(
+            //             color: Colors.grey,
+            //             borderRadius: BorderRadius.circular(50),
+            //           ),
+            //           child: Center(
+            //             child: Text(
+            //               peers[index]
+            //                   .deviceName
+            //                   .toString()
+            //                   .characters
+            //                   .first
+            //                   .toUpperCase(),
+            //               style: const TextStyle(
+            //                 color: Colors.white,
+            //                 fontSize: 30,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     snack((await _flutterP2pConnectionPlugin.checkWifiEnabled())
+            //         ? "enabled"
+            //         : "diabled");
+            //   },
+            //   child: const Text("check wifi enabled"),
+            // ),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     print(
+            //         await _flutterP2pConnectionPlugin.askLocationPermission());
+            //   },
+            //   child: const Text("ask location permission"),
+            // ),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     print(await _flutterP2pConnectionPlugin.askStoragePermission());
+            //   },
+            //   child: const Text("ask storage permission"),
+            // ),
             ElevatedButton(
               onPressed: () async {
                 print(
@@ -308,13 +308,13 @@ class _MultiplayerScreen extends State<MultiplayerScreen>
               },
               child: const Text("remove group/disconnect"),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                String? ip = await _flutterP2pConnectionPlugin.getIPAddress();
-                snack("ip: $ip");
-              },
-              child: const Text("get ip"),
-            ),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     String? ip = await _flutterP2pConnectionPlugin.getIPAddress();
+            //     snack("ip: $ip");
+            //   },
+            //   child: const Text("get ip"),
+            // ),
             ElevatedButton(
               onPressed: () async {
                 bool? discovering =
@@ -360,18 +360,18 @@ class _MultiplayerScreen extends State<MultiplayerScreen>
               },
               child: const Text("send msg"),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                sendFile(true);
-              },
-              child: const Text("send File from phone"),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                sendFile(false);
-              },
-              child: const Text("send File"),
-            ),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     sendFile(true);
+            //   },
+            //   child: const Text("send File from phone"),
+            // ),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     sendFile(false);
+            //   },
+            //   child: const Text("send File"),
+            // ),
           ],
         ),
       ),
