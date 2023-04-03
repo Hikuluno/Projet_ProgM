@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
 import 'dart:math';
+import 'package:flutter_application_1/score.dart';
 
 class GreenLight extends StatefulWidget {
   const GreenLight({Key? key}) : super(key: key);
@@ -11,15 +10,20 @@ class GreenLight extends StatefulWidget {
 }
 
 class _GreenLightState extends State<GreenLight> {
+  ScoreWidget _scoreWidget = ScoreWidget();
+
   bool _isStarted = false;
-  bool _isGreen = false;
-  bool _isRed = false;
+  late bool _isGreen;
+  late bool _isRed;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Green Light'),
+        actions: [
+          _scoreWidget,
+        ],
       ),
       body: !_isStarted
           ? GestureDetector(
@@ -56,9 +60,19 @@ class _GreenLightState extends State<GreenLight> {
           : GestureDetector(
               onHorizontalDragUpdate: (details) {
                 if (details.delta.dx > 0) {
-                  // drag vers la droite
+                  // swipe to the right
+                  if (_isGreen) {
+                    // _scoreWidget.currentState
+                    //     .increment(); // increment the score
+                  }
+                  _updateColor();
                 } else if (details.delta.dx < 0) {
-                  // drag vers la gauche
+                  // swipe to the left
+                  if (_isRed) {
+                    // _scoreWidget.currentState
+                    //     .increment(); // increment the score
+                  }
+                  _updateColor();
                 }
               },
               child: Container(color: _isGreen ? Colors.green : Colors.red)),
@@ -68,14 +82,10 @@ class _GreenLightState extends State<GreenLight> {
   void _startGame() async {
     _isGreen = Random().nextBool();
     _isRed = !_isGreen;
-    while (_isStarted) {
-      await Future.delayed(const Duration(seconds: 2));
-      if (_isStarted) {
-        setState(() {
-          _isGreen = Random().nextBool();
-          _isRed = !_isGreen;
-        });
-      }
-    }
+  }
+
+  void _updateColor() {
+    _isGreen = Random().nextBool();
+    _isRed = !_isGreen;
   }
 }
