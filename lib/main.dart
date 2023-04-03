@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         '/solo': (context) => const SoloScreen(),
         '/multiplayer': (context) => const MultiplayerScreen(),
         '/games': (context) => const Games(),
-        '/quiz': (context) => QuizPage(),
+        '/quiz': (context) => const QuizPage(),
         '/greenlight': (context) => const GreenLight(),
       },
     );

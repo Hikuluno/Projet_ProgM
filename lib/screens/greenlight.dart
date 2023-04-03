@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:flutter_application_1/score.dart';
+// import 'package:flutter_application_1/score.dart';
 
 class GreenLight extends StatefulWidget {
   const GreenLight({Key? key}) : super(key: key);
@@ -10,7 +10,7 @@ class GreenLight extends StatefulWidget {
 }
 
 class _GreenLightState extends State<GreenLight> {
-  ScoreWidget _scoreWidget = ScoreWidget();
+  // ScoreWidget _scoreWidget = ScoreWidget();
 
   bool _isStarted = false;
   late bool _isGreen;
@@ -21,9 +21,9 @@ class _GreenLightState extends State<GreenLight> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Green Light'),
-        actions: [
-          _scoreWidget,
-        ],
+        // actions: [
+        //   _scoreWidget,
+        // ],
       ),
       body: !_isStarted
           ? GestureDetector(
@@ -31,7 +31,7 @@ class _GreenLightState extends State<GreenLight> {
                 setState(() {
                   _isStarted = true;
                 });
-                _startGame();
+                _updateColor();
               },
               child: Container(
                 color: Theme.of(context).primaryColor,
@@ -57,38 +57,35 @@ class _GreenLightState extends State<GreenLight> {
                 )),
               ),
             )
-          : Expanded(
-              child: GestureDetector(
-                  onPanUpdate: (details) {
-                    if (details.delta.dx > 0) {
-                      // swipe to the right
-                      if (_isGreen) {
-                        // _scoreWidget.currentState
-                        //     .increment(); // increment the score
-                      }
-                      _updateColor();
-                    } else if (details.delta.dx < 0) {
-                      // swipe to the left
-                      if (_isRed) {
-                        // _scoreWidget.currentState
-                        //     .increment(); // increment the score
-                      }
-                      _updateColor();
-                    }
-                  },
-                  child:
-                      Container(color: _isGreen ? Colors.green : Colors.red)),
-            ),
+          : GestureDetector(
+              onPanUpdate: (details) {
+                int sensitivity = 8;
+                if (details.delta.dx > sensitivity) {
+                  // swipe to the right
+                  if (_isGreen) {
+                    // _scoreWidget.currentState
+                    //     .increment(); // increment the score
+                  }
+                  print("swiped");
+                  _updateColor();
+                } else if (details.delta.dx < sensitivity) {
+                  // swipe to the left
+                  if (_isRed) {
+                    // _scoreWidget.currentState
+                    //     .increment(); // increment the score
+                  }
+                  print("swiped");
+                  _updateColor();
+                }
+              },
+              child: Container(color: _isGreen ? Colors.green : Colors.red)),
     );
   }
 
-  void _startGame() async {
-    _isGreen = Random().nextBool();
-    _isRed = !_isGreen;
-  }
-
   void _updateColor() {
-    _isGreen = Random().nextBool();
-    _isRed = !_isGreen;
+    setState(() {
+      _isGreen = Random().nextBool();
+      _isRed = !_isGreen;
+    });
   }
 }
