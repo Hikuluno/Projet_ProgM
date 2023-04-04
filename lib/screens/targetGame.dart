@@ -19,8 +19,8 @@ class TargetGameState extends State<TargetGame> {
   double size = 100;
   bool _isGameRunning = false;
   bool _isGameFinished = false;
-  double _targetXPosition = 0;
-  double _targetYPosition = 0;
+  late double _targetXPosition;
+  late double _targetYPosition;
   final _random = Random();
 
   @override
@@ -62,7 +62,7 @@ class TargetGameState extends State<TargetGame> {
             : _isGameFinished
                 ? GestureDetector(
                     onTap: () async {
-                      await Future.delayed(const Duration(seconds: 1));
+                      await Future.delayed(const Duration(milliseconds: 500));
 
                       setState(() {
                         _isGameFinished = false;
@@ -87,6 +87,7 @@ class TargetGameState extends State<TargetGame> {
                   )
                 : GestureDetector(
                     onTap: () {
+                      spawnTarget();
                       startGame();
                     },
                     child: Container(
@@ -117,7 +118,6 @@ class TargetGameState extends State<TargetGame> {
   }
 
   void startGame() {
-    spawnTarget();
     setState(() {
       _isGameRunning = true;
     });
@@ -136,14 +136,13 @@ class TargetGameState extends State<TargetGame> {
   }
 
   void spawnTarget() {
-    if (_isGameRunning) {
-      setState(() {
-        _targetXPosition =
-            _random.nextDouble() * (MediaQuery.of(context).size.width - size);
-        _targetYPosition =
-            _random.nextDouble() * (MediaQuery.of(context).size.height - size);
-      });
-    }
+    setState(() {
+      _targetXPosition =
+          _random.nextDouble() * (MediaQuery.of(context).size.width - size);
+      _targetYPosition = _random.nextDouble() *
+          0.85 *
+          (MediaQuery.of(context).size.height - size);
+    });
   }
 
   void _onTapTarget() {

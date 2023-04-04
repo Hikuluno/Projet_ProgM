@@ -31,6 +31,9 @@ class TextColorGuessState extends State<TextColorGuess> {
   late Color textColor;
   late Color bgColor;
   late String text;
+  late bool bold;
+  late bool isRounded;
+  late double fontSize;
 
   @override
   void initState() {
@@ -57,10 +60,14 @@ class TextColorGuessState extends State<TextColorGuess> {
                   Expanded(
                       child: Center(
                           child: TextColor(
-                              size: size,
-                              textColor: textColor,
-                              bgColor: bgColor,
-                              text: text))),
+                    size: size,
+                    textColor: textColor,
+                    bgColor: bgColor,
+                    text: text,
+                    bold: bold,
+                    fontSize: fontSize,
+                    isRounded: isRounded,
+                  ))),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
@@ -115,7 +122,7 @@ class TextColorGuessState extends State<TextColorGuess> {
             : _isGameFinished
                 ? GestureDetector(
                     onTap: () async {
-                      await Future.delayed(const Duration(seconds: 1));
+                      await Future.delayed(const Duration(milliseconds: 500));
 
                       setState(() {
                         _isGameFinished = false;
@@ -189,14 +196,21 @@ class TextColorGuessState extends State<TextColorGuess> {
 
   void spawnTextColor() {
     int randomIndex;
+    int randomIndex2;
     setState(() {
-      size = _random.nextInt(150) + 50;
+      size = _random.nextInt(200) + 50;
       randomIndex = _random.nextInt(colorList.length);
       textColor = colorList[randomIndex].color;
-      randomIndex = _random.nextInt(colorList.length);
-      bgColor = colorList[randomIndex].color;
+      randomIndex2 = _random.nextInt(colorList.length);
+      while (randomIndex2 == randomIndex) {
+        randomIndex2 = _random.nextInt(colorList.length);
+      }
+      bgColor = colorList[randomIndex2].color;
       randomIndex = _random.nextInt(colorList.length);
       text = colorList[randomIndex].name;
+      bold = _random.nextBool();
+      isRounded = _random.nextBool();
+      fontSize = _random.nextDouble() * 20 + 10;
     });
   }
 

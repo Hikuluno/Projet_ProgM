@@ -5,21 +5,35 @@ class TextColor extends StatelessWidget {
   final Color textColor;
   final Color bgColor;
   final String text;
+  final bool bold;
+  final bool isRounded;
+  final double fontSize;
 
   const TextColor(
       {super.key,
       this.size = 100,
       this.textColor = Colors.red,
       this.bgColor = Colors.yellow,
-      this.text = "Blue"});
+      this.text = "Blue",
+      this.bold = false,
+      this.fontSize = 14,
+      this.isRounded = false});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: size,
       height: size,
-      color: bgColor,
-      child: Center(child: Text(text, style: TextStyle(color: textColor))),
+      decoration: BoxDecoration(
+        color: bgColor,
+        shape: isRounded ? BoxShape.circle : BoxShape.rectangle,
+      ),
+      child: Center(
+          child: Text(text,
+              style: TextStyle(
+                  color: textColor,
+                  fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+                  fontSize: fontSize))),
     );
   }
 }
