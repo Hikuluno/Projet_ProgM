@@ -28,10 +28,10 @@ class Games extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(
                   context,
-                  '/greenlight',
+                  '/textColorGuess',
                 );
               },
-              child: const Text('GREENLIGHT'),
+              child: const Text('GUESS TEXT COLOR'),
             ),
             const SizedBox(height: 10),
             OutlinedButton(

@@ -6,10 +6,7 @@ import 'package:flutter_application_1/score.dart';
 import 'package:flutter_application_1/target.dart';
 
 class TargetGame extends StatefulWidget {
-  final double size;
-  final Color color;
-
-  const TargetGame({super.key, this.size = 100, this.color = Colors.red});
+  const TargetGame({super.key});
   @override
   TargetGameState createState() => TargetGameState();
 }
@@ -18,6 +15,7 @@ class TargetGameState extends State<TargetGame> {
   final GlobalKey<ScoreWidgetState> _scoreKey = GlobalKey();
   late ScoreWidget _scoreWidget;
   late Timer _timer;
+  double size = 100;
   bool _isGameRunning = false;
   bool _isGameFinished = false;
   double _targetXPosition = 0;
@@ -51,8 +49,8 @@ class TargetGameState extends State<TargetGame> {
                       left: _targetXPosition,
                       bottom: _targetYPosition,
                       child: Container(
-                        width: widget.size,
-                        height: widget.size,
+                        width: size,
+                        height: size,
                         color: Colors.transparent,
                         child: const Target(),
                       ),
@@ -112,7 +110,7 @@ class TargetGameState extends State<TargetGame> {
   @override
   void dispose() {
     super.dispose();
-    if (!_isGameRunning) {
+    if (_isGameRunning) {
       _timer.cancel();
     }
   }
@@ -124,7 +122,7 @@ class TargetGameState extends State<TargetGame> {
     });
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       // Duration of the game
-      int duration = 5;
+      int duration = 15;
       if (timer.tick >= duration) {
         timer.cancel();
         setState(() {
@@ -138,12 +136,11 @@ class TargetGameState extends State<TargetGame> {
 
   void spawnTarget() {
     if (_isGameRunning) {
-      print("spawn target");
       setState(() {
-        _targetXPosition = _random.nextDouble() *
-            (MediaQuery.of(context).size.width - widget.size);
-        _targetYPosition = _random.nextDouble() *
-            (MediaQuery.of(context).size.height - widget.size);
+        _targetXPosition =
+            _random.nextDouble() * (MediaQuery.of(context).size.width - size);
+        _targetYPosition =
+            _random.nextDouble() * (MediaQuery.of(context).size.height - size);
       });
     }
   }
