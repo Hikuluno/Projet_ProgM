@@ -4,7 +4,7 @@ class Target extends StatelessWidget {
   final double size;
   final Color color;
 
-  Target({this.size = 100, this.color = Colors.red});
+  const Target({super.key, this.size = 100, this.color = Colors.red});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class Target extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: Color.fromARGB(213, 252, 234, 234),
+        color: const Color.fromARGB(213, 252, 234, 234),
         shape: BoxShape.circle,
         border: Border.all(width: size / 20, color: color),
       ),

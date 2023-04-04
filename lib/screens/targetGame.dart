@@ -54,7 +54,7 @@ class TargetGameState extends State<TargetGame> {
                         width: widget.size,
                         height: widget.size,
                         color: Colors.transparent,
-                        child: Target(),
+                        child: const Target(),
                       ),
                     ),
                   ],
@@ -62,9 +62,12 @@ class TargetGameState extends State<TargetGame> {
               )
             : _isGameFinished
                 ? GestureDetector(
-                    onTap: () {
-                      _isGameFinished = false;
-                      startGame();
+                    onTap: () async {
+                      await Future.delayed(const Duration(seconds: 1));
+
+                      setState(() {
+                        _isGameFinished = false;
+                      });
                     },
                     child: Container(
                       color: Theme.of(context).primaryColor,
@@ -119,9 +122,10 @@ class TargetGameState extends State<TargetGame> {
     setState(() {
       _isGameRunning = true;
     });
-    _timer = Timer.periodic(
-        Duration(milliseconds: (_random.nextInt(10) + 1) * 100), (timer) {
-      if (timer.tick >= 20) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      // Duration of the game
+      int duration = 5;
+      if (timer.tick >= duration) {
         timer.cancel();
         setState(() {
           _isGameRunning = false;

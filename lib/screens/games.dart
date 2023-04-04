@@ -38,7 +38,7 @@ class Games extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(
                   context,
-                  '/target_game',
+                  '/targetGame',
                 );
               },
               child: const Text('TAP THE TARGET'),

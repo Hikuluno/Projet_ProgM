@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/games.dart';
-import 'package:flutter_application_1/screens/greenlight.dart';
 import 'package:flutter_application_1/screens/solo_screen.dart';
-import 'package:flutter_application_1/screens/target_game.dart';
+import 'package:flutter_application_1/screens/targetGame.dart';
+import 'package:flutter_application_1/screens/textColorGuess.dart';
 import './screens/home_screen.dart';
 import './screens/quiz_question.dart';
 import './screens/multiplayer_screen.dart';
@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
         '/multiplayer': (context) => const MultiplayerScreen(),
         '/games': (context) => const Games(),
         '/quiz': (context) => const QuizPage(),
-        '/greenlight': (context) => const GreenLight(),
-        '/target_game': (context) => TargetGame(),
+        '/textColorGuess': (context) => const TextColorGuess(),
+        '/targetGame': (context) => const TargetGame(),
       },
     );
   }
