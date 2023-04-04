@@ -17,12 +17,13 @@ class TextColorGuessState extends State<TextColorGuess> {
   late Timer _timer;
   bool _isGameRunning = false;
   bool _isGameFinished = false;
+  bool singleTap = true;
   final _random = Random();
   List<ColorInfo> colorList = [
     ColorInfo(Colors.purple, "purple"),
     ColorInfo(Colors.yellow, "yellow"),
-    ColorInfo(Colors.black, "black"),
-    ColorInfo(Colors.white, "white"),
+    ColorInfo(Colors.greenAccent, "green"),
+    ColorInfo(Colors.blueAccent, "blue"),
   ];
 
   // TextColor parameters
@@ -70,14 +71,18 @@ class TextColorGuessState extends State<TextColorGuess> {
                           children: [
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: () {},
-                                child: const Text('Purple'),
+                                onPressed: () {
+                                  _onTap("purple");
+                                },
+                                child: const Text('purple'),
                               ),
                             ),
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: () {},
-                                child: const Text('Yellow'),
+                                onPressed: () {
+                                  _onTap("yellow");
+                                },
+                                child: const Text('yellow'),
                               ),
                             ),
                           ],
@@ -86,14 +91,18 @@ class TextColorGuessState extends State<TextColorGuess> {
                           children: [
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: () {},
-                                child: const Text('Black'),
+                                onPressed: () {
+                                  _onTap("green");
+                                },
+                                child: const Text('green'),
                               ),
                             ),
                             Expanded(
                               child: ElevatedButton(
-                                onPressed: () {},
-                                child: const Text('White'),
+                                onPressed: () {
+                                  _onTap("blue");
+                                },
+                                child: const Text('blue'),
                               ),
                             ),
                           ],
@@ -191,13 +200,21 @@ class TextColorGuessState extends State<TextColorGuess> {
     });
   }
 
-  // void _onTap() {
-  //   if(){
-  //   _scoreKey.currentState?.increment();
-
-  //   }
-  //   spawnTarget();
-  // }
+  void _onTap(String color) {
+    if (singleTap) {
+      singleTap = false;
+      Timer(const Duration(milliseconds: 500), () {
+        if (_isGameRunning && color.toLowerCase() == text.toLowerCase()) {
+          _scoreKey.currentState?.increment();
+          setState(() {
+            // Disable buttons for 0.5 seconds after each correct guess
+          });
+        }
+        spawnTextColor();
+        singleTap = true;
+      });
+    }
+  }
 }
 
 class ColorInfo {
