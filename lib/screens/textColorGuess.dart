@@ -18,11 +18,24 @@ class TextColorGuessState extends State<TextColorGuess> {
   bool _isGameRunning = false;
   bool _isGameFinished = false;
   final _random = Random();
+  List<ColorInfo> colorList = [
+    ColorInfo(Colors.purple, "purple"),
+    ColorInfo(Colors.yellow, "yellow"),
+    ColorInfo(Colors.black, "black"),
+    ColorInfo(Colors.white, "white"),
+  ];
+
+  // TextColor parameters
+  late double size;
+  late Color textColor;
+  late Color bgColor;
+  late String text;
 
   @override
   void initState() {
     super.initState();
     _scoreWidget = ScoreWidget(key: _scoreKey);
+    spawnTextColor();
   }
 
   @override
@@ -40,43 +53,53 @@ class TextColorGuessState extends State<TextColorGuess> {
         body: _isGameRunning
             ? Column(
                 children: [
-                  const TextColor(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: const Text('Purple'),
+                  Expanded(
+                      child: Center(
+                          child: TextColor(
+                              size: size,
+                              textColor: textColor,
+                              bgColor: bgColor,
+                              text: text))),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: const Text('Purple'),
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: const Text('Yellow'),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: const Text('Yellow'),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: const Text('Black'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: const Text('Black'),
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: const Text('White'),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                child: const Text('White'),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               )
@@ -138,7 +161,6 @@ class TextColorGuessState extends State<TextColorGuess> {
   }
 
   void startGame() {
-    // spawnTextColor();
     setState(() {
       _isGameRunning = true;
     });
@@ -156,20 +178,31 @@ class TextColorGuessState extends State<TextColorGuess> {
     });
   }
 
-  // void spawnTextColor() {
-  //   if (_isGameRunning) {
-  //     setState(() {
-  //       _targetXPosition = _random.nextDouble() *
-  //           (MediaQuery.of(context).size.width - widget.size);
-  //       _targetYPosition = _random.nextDouble() *
-  //           (MediaQuery.of(context).size.height - widget.size);
-  //     });
-  //   }
-  // }
+  void spawnTextColor() {
+    int randomIndex;
+    setState(() {
+      size = _random.nextInt(150) + 50;
+      randomIndex = _random.nextInt(colorList.length);
+      textColor = colorList[randomIndex].color;
+      randomIndex = _random.nextInt(colorList.length);
+      bgColor = colorList[randomIndex].color;
+      randomIndex = _random.nextInt(colorList.length);
+      text = colorList[randomIndex].name;
+    });
+  }
 
   // void _onTap() {
+  //   if(){
   //   _scoreKey.currentState?.increment();
+
+  //   }
   //   spawnTarget();
   // }
 }
-            // const Center(child: TextColor()) 
+
+class ColorInfo {
+  final Color color;
+  final String name;
+
+  ColorInfo(this.color, this.name);
+}
