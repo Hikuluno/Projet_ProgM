@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/score.dart';
-import 'package:flutter_application_1/textColor.dart';
+import '../widgets/score.dart';
+import '../widgets/textColor.dart';
 
 class TextColorGuess extends StatefulWidget {
   const TextColorGuess({super.key});

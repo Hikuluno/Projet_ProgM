@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/score.dart';
-import 'package:flutter_application_1/target.dart';
+
+import '../widgets/score.dart';
+import '../widgets/target.dart';
 
 class TargetGame extends StatefulWidget {
   const TargetGame({super.key});
