@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import '../widgets/score.dart';
 import '../widgets/textColor.dart';
 
-class TextColorGuess extends StatefulWidget {
-  const TextColorGuess({super.key});
+class FindItGame extends StatefulWidget {
+  const FindItGame({super.key});
   @override
-  TextColorGuessState createState() => TextColorGuessState();
+  FindItGameState createState() => FindItGameState();
 }
 
-class TextColorGuessState extends State<TextColorGuess> {
+class FindItGameState extends State<FindItGame> {
   final GlobalKey<ScoreWidgetState> _scoreKey = GlobalKey();
   late ScoreWidget _scoreWidget;
   late Timer _timer;
@@ -46,7 +46,7 @@ class TextColorGuessState extends State<TextColorGuess> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Guess text color'),
+          title: const Text('Find it!'),
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),

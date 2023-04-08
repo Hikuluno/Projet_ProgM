@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/findItGame.dart';
 import 'package:flutter_application_1/screens/games.dart';
 import 'package:flutter_application_1/screens/solo_screen.dart';
 import 'package:flutter_application_1/screens/targetGame.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/quiz': (context) => const QuizPage(),
         '/textColorGuess': (context) => const TextColorGuess(),
         '/targetGame': (context) => const TargetGame(),
+        '/findItGame': (context) => const FindItGame(),
       },
     );
   }
