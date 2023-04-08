@@ -22,4 +22,5 @@ flutter:
 
   # Declare your asset path here
   assets:
-    - assets/quiz_data.json
+    - assets/
+    - assets/images/

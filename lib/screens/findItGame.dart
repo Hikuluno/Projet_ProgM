@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widgets/findItPicture.dart';
 import '../widgets/score.dart';
 import '../widgets/textColor.dart';
 
@@ -17,29 +18,26 @@ class FindItGameState extends State<FindItGame> {
   late Timer _timer;
   bool _isGameRunning = false;
   bool _isGameFinished = false;
-  bool singleTap = true;
   final _random = Random();
-  List<ColorInfo> colorList = [
-    ColorInfo(Colors.purple, "purple"),
-    ColorInfo(Colors.yellow, "yellow"),
-    ColorInfo(Colors.greenAccent, "green"),
-    ColorInfo(Colors.blueAccent, "blue"),
-  ];
 
-  // TextColor parameters
-  late double size;
-  late Color textColor;
-  late Color bgColor;
-  late String text;
-  late bool bold;
-  late bool isRounded;
-  late double fontSize;
+  // bool singleTap = true;
+
+  // Characters list
+  List<String> charList = [
+    'azazel',
+    'bluebaby',
+    'cain',
+    'isaac',
+    'lazarus',
+    'lilith',
+    'thelost'
+  ];
 
   @override
   void initState() {
     super.initState();
     _scoreWidget = ScoreWidget(key: _scoreKey);
-    spawnTextColor();
+    // spawnTextColor();
   }
 
   @override
@@ -59,63 +57,8 @@ class FindItGameState extends State<FindItGame> {
                 children: [
                   Expanded(
                       child: Center(
-                          child: TextColor(
-                    size: size,
-                    textColor: textColor,
-                    bgColor: bgColor,
-                    text: text,
-                    bold: bold,
-                    fontSize: fontSize,
-                    isRounded: isRounded,
-                  ))),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  _onTap("purple");
-                                },
-                                child: const Text('purple'),
-                              ),
-                            ),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  _onTap("yellow");
-                                },
-                                child: const Text('yellow'),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  _onTap("green");
-                                },
-                                child: const Text('green'),
-                              ),
-                            ),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  _onTap("blue");
-                                },
-                                child: const Text('blue'),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                    child: FindItPicture(size: 100, character: "bluebaby"),
+                  )),
                 ],
               )
             : _isGameFinished
@@ -192,47 +135,4 @@ class FindItGameState extends State<FindItGame> {
       }
     });
   }
-
-  void spawnTextColor() {
-    int randomIndex;
-    int randomIndex2;
-    setState(() {
-      size = _random.nextInt(200) + 60;
-      randomIndex = _random.nextInt(colorList.length);
-      textColor = colorList[randomIndex].color;
-      randomIndex2 = _random.nextInt(colorList.length);
-      while (randomIndex2 == randomIndex) {
-        randomIndex2 = _random.nextInt(colorList.length);
-      }
-      bgColor = colorList[randomIndex2].color;
-      randomIndex = _random.nextInt(colorList.length);
-      text = colorList[randomIndex].name;
-      bold = _random.nextBool();
-      isRounded = _random.nextBool();
-      fontSize = _random.nextDouble() * 20 + 10;
-    });
-  }
-
-  void _onTap(String color) {
-    if (singleTap) {
-      singleTap = false;
-      Timer(const Duration(milliseconds: 500), () {
-        if (_isGameRunning && color.toLowerCase() == text.toLowerCase()) {
-          _scoreKey.currentState?.increment();
-          setState(() {
-            // Disable buttons for 0.5 seconds after each correct guess
-          });
-        }
-        spawnTextColor();
-        singleTap = true;
-      });
-    }
-  }
-}
-
-class ColorInfo {
-  final Color color;
-  final String name;
-
-  ColorInfo(this.color, this.name);
 }
