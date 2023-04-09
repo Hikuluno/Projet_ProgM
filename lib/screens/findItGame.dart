@@ -155,7 +155,7 @@ class FindItGameState extends State<FindItGame> {
     });
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       // Duration of the game
-      int duration = 15;
+      int duration = 30;
       if (timer.tick >= duration) {
         timer.cancel();
         setState(() {
