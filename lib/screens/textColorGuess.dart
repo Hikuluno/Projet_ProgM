@@ -136,9 +136,7 @@ class TextColorGuessState extends State<TextColorGuess> {
                           Text(
                             'Replay ?',
                             style: TextStyle(
-                                fontSize: 32,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ],
                       )),
@@ -157,9 +155,7 @@ class TextColorGuessState extends State<TextColorGuess> {
                           Text(
                             'Tap to play',
                             style: TextStyle(
-                                fontSize: 32,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ],
                       )),
@@ -219,9 +215,7 @@ class TextColorGuessState extends State<TextColorGuess> {
       Timer(const Duration(milliseconds: 500), () {
         if (_isGameRunning && color.toLowerCase() == text.toLowerCase()) {
           _scoreKey.currentState?.increment();
-          setState(() {
-            // Disable buttons for 0.5 seconds after each correct guess
-          });
+          // Disable buttons for 0.5 seconds after each correct guess
         }
         spawnTextColor();
         singleTap = true;

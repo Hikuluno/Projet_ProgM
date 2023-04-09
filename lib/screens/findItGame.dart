@@ -19,9 +19,10 @@ class FindItGameState extends State<FindItGame> {
   late Timer _timer;
   bool _isGameRunning = false;
   bool _isGameFinished = false;
+  bool _isWaiting = false;
   final _random = Random();
 
-  // bool singleTap = true;
+  bool singleTap = true;
 
   Color borderColor = const Color.fromARGB(235, 221, 212, 221);
   late String characterToFind;
@@ -34,7 +35,7 @@ class FindItGameState extends State<FindItGame> {
   void initState() {
     super.initState();
     _scoreWidget = ScoreWidget(key: _scoreKey);
-    // spawnTextColor();
+    characterToFind = charList[_random.nextInt(charList.length)];
   }
 
   @override
@@ -50,38 +51,67 @@ class FindItGameState extends State<FindItGame> {
           ],
         ),
         body: _isGameRunning
-            ? Container(
-                color: Colors.black87,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 30),
-                      child: Column(
-                        children: [
-                          Center(
-                            child: Container(
-                                decoration:
-                                    BoxDecoration(border: Border.all(color: borderColor, width: 4)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: FindItPicture(size: 100, character: "azazel"),
-                                )),
+            ? _isWaiting
+                ? Container(
+                    color: Colors.black87,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          child: Column(
+                            children: [
+                              Center(
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: borderColor, width: 4)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: FindItPicture(size: 100, character: characterToFind),
+                                    )),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        Divider(
+                          color: borderColor,
+                          thickness: 4,
+                        ),
+                      ],
                     ),
-                    Divider(
-                      color: borderColor,
-                      thickness: 4,
+                  )
+                : Container(
+                    color: Colors.black87,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 30),
+                          child: Column(
+                            children: [
+                              Center(
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: borderColor, width: 4)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: FindItPicture(size: 100, character: characterToFind),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(
+                          color: borderColor,
+                          thickness: 4,
+                        ),
+                        Expanded(
+                          child: FindItCrowd(
+                            uniqueCharacterImage: characterToFind,
+                            onCharacterTap: onCharacterTap,
+                          ),
+                        ),
+                      ],
                     ),
-                    const Expanded(
-                      child: FindItCrowd(
-                        uniqueCharacterImage: 'azazel',
-                      ),
-                    ),
-                  ],
-                ),
-              )
+                  )
             : _isGameFinished
                 ? GestureDetector(
                     onTap: () async {
@@ -150,6 +180,7 @@ class FindItGameState extends State<FindItGame> {
   }
 
   void startGame() {
+    spawnHead();
     setState(() {
       _isGameRunning = true;
     });
@@ -173,9 +204,22 @@ class FindItGameState extends State<FindItGame> {
     });
   }
 
-  void checkAnswer(String character) {
-    if (character == characterToFind) {
-      _scoreKey.currentState!.increment();
+  void onCharacterTap(String character) {
+    if (singleTap) {
+      setState(() {
+        _isWaiting = true;
+      });
+      singleTap = false;
+      Timer(const Duration(milliseconds: 500), () {
+        if (character == characterToFind) {
+          _scoreKey.currentState!.increment();
+        }
+        spawnHead();
+        singleTap = true;
+        setState(() {
+          _isWaiting = false;
+        });
+      });
     }
   }
 }
