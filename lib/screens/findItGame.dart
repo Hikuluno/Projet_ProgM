@@ -19,7 +19,7 @@ class FindItGameState extends State<FindItGame> {
   late Timer _timer;
   bool _isGameRunning = false;
   bool _isGameFinished = false;
-  bool _isWaiting = false;
+  bool reload = false;
   final _random = Random();
 
   bool singleTap = true;
@@ -51,7 +51,7 @@ class FindItGameState extends State<FindItGame> {
           ],
         ),
         body: _isGameRunning
-            ? _isWaiting
+            ? reload
                 ? Container(
                     color: Colors.black87,
                     child: Column(
@@ -155,12 +155,12 @@ class FindItGameState extends State<FindItGame> {
                             height: 32,
                           ),
                           Padding(
-                            padding: EdgeInsets.all(16),
+                            padding: EdgeInsets.all(24),
                             child: Text(
-                              'Tap on the character in the crowd as the upscreen one',
+                              'Tap on the character in the crowd that matches the character displayed on top of the screen!',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 26,
+                                fontSize: 22,
                                 color: Colors.white,
                               ),
                             ),
@@ -206,18 +206,20 @@ class FindItGameState extends State<FindItGame> {
 
   void onCharacterTap(String character) {
     if (singleTap) {
-      setState(() {
-        _isWaiting = true;
-      });
       singleTap = false;
-      Timer(const Duration(milliseconds: 500), () {
+      Timer(const Duration(milliseconds: 1000), () {
         if (character == characterToFind) {
           _scoreKey.currentState!.increment();
         }
         spawnHead();
         singleTap = true;
         setState(() {
-          _isWaiting = false;
+          reload = true;
+        });
+        Timer(const Duration(milliseconds: 50), () {
+          setState(() {
+            reload = false;
+          });
         });
       });
     }

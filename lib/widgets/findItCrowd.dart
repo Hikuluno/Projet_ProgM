@@ -36,6 +36,8 @@ class FindItCrowdState extends State<FindItCrowd> {
   late final Ticker ticker;
   late final double width;
   late final double height;
+  double opacity = 1;
+  int _uniqueCharacterIndex = 0;
 
   @override
   void initState() {
@@ -156,29 +158,41 @@ class FindItCrowdState extends State<FindItCrowd> {
                   top: _charPositions[i].dy,
                   child: GestureDetector(
                     onTap: () {
-                      widget.onCharacterTap(_displayedCharList[i]);
+                      onTap(_displayedCharList[i]);
                     },
                     child: FindItPicture(
                       character: _displayedCharList[i],
+                      opacity: opacity,
                     ),
                   ),
                 ),
               ),
             Indexed(
-              index: 0,
+              index: _uniqueCharacterIndex,
               child: Positioned(
                 left: _uniqueCharacterPosition.dx,
                 top: _uniqueCharacterPosition.dy,
                 child: GestureDetector(
                     onTap: () {
-                      widget.onCharacterTap(widget.uniqueCharacterImage);
+                      onTap(widget.uniqueCharacterImage);
                     },
-                    child: FindItPicture(character: widget.uniqueCharacterImage)),
+                    child: FindItPicture(
+                      character: widget.uniqueCharacterImage,
+                    )),
               ),
             ),
           ],
         ),
       ],
     );
+  }
+
+  void onTap(String character) {
+    widget.onCharacterTap(character);
+    ticker.dispose();
+    setState(() {
+      opacity = 0.1;
+      _uniqueCharacterIndex = 2;
+    });
   }
 }
