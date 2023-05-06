@@ -11,7 +11,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_p2p_connection: ^2.0.1
+  google_fonts: ^4.0.4
+  avatar_glow: 
   indexed: ^0.0.8
+  sensors_plus: ^2.0.2
 
 dev_dependencies:
   flutter_test:

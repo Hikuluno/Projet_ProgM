@@ -54,6 +54,16 @@ class Games extends StatelessWidget {
               child: const Text('FIND IT!'),
             ),
             const SizedBox(height: 10),
+            OutlinedButton(
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  '/ballgame',
+                );
+              },
+              child: const Text('BALL'),
+            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
