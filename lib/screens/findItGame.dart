@@ -52,7 +52,9 @@ class FindItGameState extends State<FindItGame> {
         ),
         body: _isGameRunning
             ? reload
-                ? Container(
+                ?
+                // JEU EN COURS D'EXECUTION
+                Container(
                     color: Colors.black87,
                     child: Column(
                       children: [
@@ -139,6 +141,7 @@ class FindItGameState extends State<FindItGame> {
                 : GestureDetector(
                     onTap: () {
                       startGame();
+                      _scoreKey.currentState!.resetScore();
                     },
                     child: Container(
                       color: Theme.of(context).primaryColor,

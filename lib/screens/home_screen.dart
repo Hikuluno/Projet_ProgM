@@ -11,7 +11,11 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 10),
+            Image.asset(
+              'assets/images/home_logo_1.png',
+              width: 300, // Ajustez la largeur selon vos besoins
+            ),
+            const SizedBox(height: 50),
             OutlinedButton(
               onPressed: () {
                 Navigator.pushNamed(

@@ -77,9 +77,7 @@ class TargetGameState extends State<TargetGame> {
                           Text(
                             'Replay ?',
                             style: TextStyle(
-                                fontSize: 32,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ],
                       )),
@@ -89,6 +87,7 @@ class TargetGameState extends State<TargetGame> {
                     onTap: () {
                       spawnTarget();
                       startGame();
+                      _scoreKey.currentState!.resetScore();
                     },
                     child: Container(
                       color: Theme.of(context).primaryColor,
@@ -99,9 +98,7 @@ class TargetGameState extends State<TargetGame> {
                           Text(
                             'Tap to play',
                             style: TextStyle(
-                                fontSize: 32,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ],
                       )),
@@ -137,11 +134,8 @@ class TargetGameState extends State<TargetGame> {
 
   void spawnTarget() {
     setState(() {
-      _targetXPosition =
-          _random.nextDouble() * (MediaQuery.of(context).size.width - size);
-      _targetYPosition = _random.nextDouble() *
-          0.85 *
-          (MediaQuery.of(context).size.height - size);
+      _targetXPosition = _random.nextDouble() * (MediaQuery.of(context).size.width - size);
+      _targetYPosition = _random.nextDouble() * 0.85 * (MediaQuery.of(context).size.height - size);
     });
   }
 

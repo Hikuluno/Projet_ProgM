@@ -145,6 +145,7 @@ class TextColorGuessState extends State<TextColorGuess> {
                 : GestureDetector(
                     onTap: () {
                       startGame();
+                      _scoreKey.currentState!.resetScore();
                     },
                     child: Container(
                       color: Theme.of(context).primaryColor,

@@ -16,12 +16,20 @@ class ScoreWidgetState extends State<ScoreWidget> {
     _score = 0;
   }
 
+  resetScore() {
+    setState(() {
+      _score = 0;
+    });
+  }
+
   int getScore() {
     return _score;
   }
 
   set value(int newValue) {
-    _score = newValue;
+    setState(() {
+      _score = newValue;
+    });
   }
 
   increment() {
