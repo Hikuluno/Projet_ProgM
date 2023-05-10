@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
+import '../widgets/score.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -13,21 +14,18 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Map<String, dynamic>> _quizData =
-      []; // The list of quiz questions and answers
+  final GlobalKey<ScoreWidgetState> _scoreKey = GlobalKey();
+  late ScoreWidget _scoreWidget;
+  List<Map<String, dynamic>> _quizData = []; // The list of quiz questions and answers
   int _currentQuestionIndex = 0; // The index of the current quiz question
   final List<int> _alreadyAnsweredQuestionIndex = [];
-  int?
-      _selectedOptionIndex; // The index of the selected option (null means no option is selected)
-  bool _isAnsweredCorrectly =
-      false; // Whether the selected option is the correct answer
-  int _score = 0;
+  int? _selectedOptionIndex; // The index of the selected option (null means no option is selected)
+  bool _isAnsweredCorrectly = false; // Whether the selected option is the correct answer
 
   bool _isTapped = false;
 
   Future<void> _loadQuizData() async {
-    final String jsonString =
-        await rootBundle.loadString('assets/quiz_data.json');
+    final String jsonString = await rootBundle.loadString('assets/quiz_data.json');
     final List<dynamic> quizList = json.decode(jsonString);
     setState(() {
       _quizData = quizList.cast<Map<String, dynamic>>();
@@ -41,16 +39,16 @@ class _QuizPageState extends State<QuizPage> {
   void initState() {
     super.initState();
     _loadQuizData();
+    _scoreWidget = ScoreWidget(key: _scoreKey);
   }
 
   void _selectOption(int? optionIndex) {
     setState(() {
       _isTapped = true;
       _selectedOptionIndex = optionIndex;
-      _isAnsweredCorrectly =
-          optionIndex == _quizData[_currentQuestionIndex]['answer'];
+      _isAnsweredCorrectly = optionIndex == _quizData[_currentQuestionIndex]['answer'];
       if (_isAnsweredCorrectly) {
-        _score++; // Increment the score if the answer is correct
+        _scoreKey.currentState!.increment(); // Increment the score if the answer is correct
       }
     });
   }
@@ -74,14 +72,10 @@ class _QuizPageState extends State<QuizPage> {
       randomInt = Random().nextInt(_quizData.length);
       int l1 = _alreadyAnsweredQuestionIndex.length;
       int l2 = _quizData.length;
-      print("l1 : $l1  et l2 : $l2");
+      // print("l1 : $l1  et l2 : $l2");
     }
     _currentQuestionIndex = randomInt;
     _alreadyAnsweredQuestionIndex.add(_currentQuestionIndex);
-  }
-
-  _QuizPageState() : super() {
-    _score = 0;
   }
 
   @override
@@ -94,10 +88,7 @@ class _QuizPageState extends State<QuizPage> {
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: Center(
-                child: Text(
-                  'Score: $_score',
-                  style: const TextStyle(fontSize: 18.0),
-                ),
+                child: _scoreWidget,
               ),
             ),
           ],
@@ -113,18 +104,13 @@ class _QuizPageState extends State<QuizPage> {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
-              child: Center(
-                child: Text(
-                  'Score: $_score',
-                  style: const TextStyle(fontSize: 18.0),
-                ),
-              ),
+              child: Center(child: _scoreWidget),
             ),
           ],
         ),
         body: Center(
             child: Text(
-          _score >= 2 ? "You are a genius!" : "You are a noob!",
+          _scoreKey.currentState!.getScore() >= 2 ? "You are a genius!" : "You are a noob!",
           style: const TextStyle(
             fontSize: 24.0,
           ),
@@ -140,12 +126,7 @@ class _QuizPageState extends State<QuizPage> {
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
-              child: Center(
-                child: Text(
-                  'Score: $_score',
-                  style: const TextStyle(fontSize: 18.0),
-                ),
-              ),
+              child: Center(child: _scoreWidget),
             ),
           ],
         ),
@@ -192,8 +173,7 @@ class _QuizPageState extends State<QuizPage> {
               itemCount: options.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                   child: GestureDetector(
                     onTap: () {
                       if (!_isTapped) {
@@ -208,10 +188,7 @@ class _QuizPageState extends State<QuizPage> {
                             ? _isAnsweredCorrectly
                                 ? Colors.green
                                 : Colors.red
-                            : _isTapped &&
-                                    index ==
-                                        _quizData[_currentQuestionIndex]
-                                            ['answer']
+                            : _isTapped && index == _quizData[_currentQuestionIndex]['answer']
                                 ? Colors.green
                                 : Colors.white,
                         borderRadius: BorderRadius.circular(8.0),
@@ -223,9 +200,7 @@ class _QuizPageState extends State<QuizPage> {
                           style: TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
-                            color: _selectedOptionIndex == index
-                                ? Colors.white
-                                : Colors.black,
+                            color: _selectedOptionIndex == index ? Colors.white : Colors.black,
                           ),
                         ),
                       ),
