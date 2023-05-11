@@ -27,7 +27,9 @@ class FindItCrowdState extends State<FindItCrowd> {
     'lilith',
     'thelost'
   ];
+  List<Image> _charListImage = [];
   final List<String> _displayedCharList = [];
+  final List<Image> _displayedCharImageList = [];
   late List<Offset> _charPositions;
   late List<Offset> _charMovement;
   late Offset _uniqueCharacterPosition;
@@ -42,6 +44,7 @@ class FindItCrowdState extends State<FindItCrowd> {
   @override
   void initState() {
     super.initState();
+    createCharListImage();
     _createCharacters();
     _charPositions = List.filled(_numberOfCharacters, const Offset(0, 0));
     _charMovement = List.filled(_numberOfCharacters, const Offset(0, 0));
@@ -67,6 +70,16 @@ class FindItCrowdState extends State<FindItCrowd> {
     });
 
     ticker.start();
+  }
+
+  void createCharListImage() {
+    _charListImage = _charList.map((character) {
+      return Image.asset(
+        'assets/images/$character.png',
+        width: 100,
+        fit: BoxFit.fitWidth,
+      );
+    }).toList();
   }
 
   @override
@@ -141,6 +154,7 @@ class FindItCrowdState extends State<FindItCrowd> {
         character = _charList[index];
       } while (character == widget.uniqueCharacterImage);
       _displayedCharList.add(character);
+      _displayedCharImageList.add(_charListImage[index]);
     }
   }
 
@@ -163,6 +177,7 @@ class FindItCrowdState extends State<FindItCrowd> {
                     child: FindItPicture(
                       character: _displayedCharList[i],
                       opacity: opacity,
+                      characterImage: _displayedCharImageList[i],
                     ),
                   ),
                 ),
@@ -178,6 +193,8 @@ class FindItCrowdState extends State<FindItCrowd> {
                     },
                     child: FindItPicture(
                       character: widget.uniqueCharacterImage,
+                      characterImage:
+                          _charListImage[_charList.indexOf(widget.uniqueCharacterImage)],
                     )),
               ),
             ),

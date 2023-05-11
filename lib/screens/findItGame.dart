@@ -35,20 +35,33 @@ class FindItGameState extends State<FindItGame> {
 
   Color borderColor = const Color.fromARGB(235, 221, 212, 221);
   late String characterToFind;
+  late Image characterToFindImage;
   // Characters list
-  List<String> charList = ['azazel', 'bluebaby', 'cain', 'isaac', 'lazarus', 'lilith', 'thelost'];
+  List<String> _charList = ['azazel', 'bluebaby', 'cain', 'isaac', 'lazarus', 'lilith', 'thelost'];
+  List<Image> _charListImage = [];
 
   late int numberOfDisplayedCharacter;
 
   @override
   void initState() {
     super.initState();
+    _createCharListImage();
     _scoreWidget = ScoreWidget(
       key: _scoreKey,
       score: widget.scoreClassicMode,
     );
 
-    characterToFind = charList[_random.nextInt(charList.length)];
+    characterToFind = _charList[_random.nextInt(_charList.length)];
+  }
+
+  void _createCharListImage() {
+    _charListImage = _charList.map((character) {
+      return Image.asset(
+        'assets/images/$character.png',
+        width: 100,
+        fit: BoxFit.fitWidth,
+      );
+    }).toList();
   }
 
   @override
@@ -89,7 +102,10 @@ class FindItGameState extends State<FindItGame> {
                                         border: Border.all(color: borderColor, width: 4)),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: FindItPicture(size: 100, character: characterToFind),
+                                      child: FindItPicture(
+                                          size: 100,
+                                          character: characterToFind,
+                                          characterImage: characterToFindImage),
                                     )),
                               ),
                             ],
@@ -116,7 +132,11 @@ class FindItGameState extends State<FindItGame> {
                                         border: Border.all(color: borderColor, width: 4)),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: FindItPicture(size: 100, character: characterToFind),
+                                      child: FindItPicture(
+                                        size: 100,
+                                        character: characterToFind,
+                                        characterImage: characterToFindImage,
+                                      ),
                                     )),
                               ),
                             ],
@@ -235,7 +255,8 @@ class FindItGameState extends State<FindItGame> {
 
   void spawnHead() {
     setState(() {
-      characterToFind = charList[_random.nextInt(charList.length)];
+      characterToFind = _charList[_random.nextInt(_charList.length)];
+      characterToFindImage = _charListImage[_random.nextInt(_charListImage.length)];
     });
   }
 
