@@ -57,7 +57,7 @@ class ScoreWidgetState extends State<ScoreWidget> {
   Widget build(BuildContext context) {
     return Text(
       'Score: $_score',
-      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
     );
   }
 }

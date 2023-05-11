@@ -23,6 +23,7 @@ class TextColorGuessState extends State<TextColorGuess> {
   final GlobalKey<ScoreWidgetState> _scoreKey = GlobalKey();
   late ScoreWidget _scoreWidget;
   late Timer _timer;
+  int timerSeconds = 0;
   bool _isGameRunning = false;
   bool _isGameFinished = false;
   bool singleTap = true;
@@ -62,7 +63,15 @@ class TextColorGuessState extends State<TextColorGuess> {
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: _scoreWidget,
+              child: Column(
+                children: [
+                  _scoreWidget,
+                  Text(
+                    'Timer: $timerSeconds',
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
             ),
           ],
         ),
@@ -190,9 +199,13 @@ class TextColorGuessState extends State<TextColorGuess> {
     setState(() {
       _isGameRunning = true;
     });
+    // Duration of the game
+    int duration = 15;
+    timerSeconds = duration;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      // Duration of the game
-      int duration = 15;
+      setState(() {
+        timerSeconds = duration - timer.tick;
+      });
       if (timer.tick >= duration) {
         timer.cancel();
         // MODE CLASSIQUE
