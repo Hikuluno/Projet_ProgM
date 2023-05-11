@@ -5,9 +5,17 @@ import 'package:flutter/material.dart';
 
 import '../widgets/score.dart';
 import '../widgets/target.dart';
+import 'classic.dart';
 
 class TargetGame extends StatefulWidget {
-  const TargetGame({super.key});
+  final int scoreClassicMode;
+  final bool isMultiplayer;
+  final bool isClassicMode;
+  const TargetGame(
+      {super.key,
+      this.scoreClassicMode = 0,
+      this.isMultiplayer = false,
+      this.isClassicMode = false});
   @override
   TargetGameState createState() => TargetGameState();
 }
@@ -27,6 +35,12 @@ class TargetGameState extends State<TargetGame> {
   void initState() {
     super.initState();
     _scoreWidget = ScoreWidget(key: _scoreKey);
+    if (widget.isClassicMode) {
+      print("EN CLASSIC MODE UE : ${widget.scoreClassicMode}");
+      setState(() {
+        _scoreKey.currentState?.setScore(widget.scoreClassicMode);
+      });
+    }
   }
 
   @override
@@ -87,7 +101,10 @@ class TargetGameState extends State<TargetGame> {
                     onTap: () {
                       spawnTarget();
                       startGame();
-                      _scoreKey.currentState!.resetScore();
+                      if (!widget.isClassicMode) {
+                        print('ue');
+                        _scoreKey.currentState!.resetScore();
+                      }
                     },
                     child: Container(
                       color: Theme.of(context).primaryColor,
@@ -123,6 +140,11 @@ class TargetGameState extends State<TargetGame> {
       int duration = 15;
       if (timer.tick >= duration) {
         timer.cancel();
+        // MODE CLASSIQUE
+        if (widget.isClassicMode) {
+          ClassicState? classicState = context.findAncestorStateOfType<ClassicState>();
+          classicState?.switchToNextGame(_scoreKey.currentState!.getScore());
+        }
         setState(() {
           _isGameRunning = false;
           _isGameFinished = true;
