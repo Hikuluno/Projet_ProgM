@@ -99,7 +99,7 @@ class TextColorGuessState extends State<TextColorGuess> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  _onTap("purple");
+                                  _onTap(colorList[0].color);
                                 },
                                 child: const Text('purple'),
                               ),
@@ -107,7 +107,7 @@ class TextColorGuessState extends State<TextColorGuess> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  _onTap("yellow");
+                                  _onTap(colorList[1].color);
                                 },
                                 child: const Text('yellow'),
                               ),
@@ -119,7 +119,7 @@ class TextColorGuessState extends State<TextColorGuess> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  _onTap("green");
+                                  _onTap(colorList[2].color);
                                 },
                                 child: const Text('green'),
                               ),
@@ -127,7 +127,7 @@ class TextColorGuessState extends State<TextColorGuess> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  _onTap("blue");
+                                  _onTap(colorList[3].color);
                                 },
                                 child: const Text('blue'),
                               ),
@@ -242,11 +242,12 @@ class TextColorGuessState extends State<TextColorGuess> {
     });
   }
 
-  void _onTap(String color) {
+  void _onTap(Color color) {
     if (singleTap) {
       singleTap = false;
       Timer(const Duration(milliseconds: 500), () {
-        if (_isGameRunning && color.toLowerCase() == text.toLowerCase()) {
+        print("yeye : ${textColor.toString()}");
+        if (_isGameRunning && color == textColor) {
           _scoreKey.currentState?.increment();
           // Disable buttons for 0.5 seconds after each correct guess
         }
