@@ -19,13 +19,14 @@ class Classic extends StatefulWidget {
 class ClassicState extends State<Classic> {
   List<Widget> listOfGames = [];
   int currentGameIndex = 0;
-  int score = 2;
+  int score = 0;
   bool isClassicModeFinished = false;
+  int numberOfGames = 3;
 
   @override
   void initState() {
     super.initState();
-    initGames();
+    initGames(0);
   }
 
   @override
@@ -41,33 +42,39 @@ class ClassicState extends State<Classic> {
             : listOfGames[currentGameIndex]);
   }
 
-  void initGames() {
-    // LE MODE CLASSIQUE COMMENCE TOUJOURS PAS LE QUIZZ
-    listOfGames.add(const QuizPage(
-      isClassicMode: true,
-    ));
-
-    // AJOUTE UN DES DEUX JEUX D'AGILITE
-    if (Random().nextBool()) {
-      listOfGames.add(TargetGame(
+  void initGames(int gameNumber) {
+    if (gameNumber == 0) {
+      // LE MODE CLASSIQUE COMMENCE TOUJOURS PAS LE QUIZZ
+      listOfGames.add(const QuizPage(
         isClassicMode: true,
-        scoreClassicMode: score,
       ));
-    } else {
-      listOfGames.add(TextColorGuess(
-        isClassicMode: true,
-        scoreClassicMode: score,
-      ));
-    }
-
-    // AJOUTE UN DES DEUX JEUX DE REFLEXION
-    if (Random().nextBool()) {
-      listOfGames.add(FindItGame(
-        isClassicMode: true,
-        scoreClassicMode: score,
-      ));
-    } else {
-      // listOfGames.add(BallGame());
+    } else if (gameNumber == 1) {
+      // AJOUTE UN DES DEUX JEUX D'AGILITE
+      if (Random().nextBool()) {
+        listOfGames.add(TargetGame(
+          isClassicMode: true,
+          scoreClassicMode: score,
+        ));
+      } else {
+        listOfGames.add(TextColorGuess(
+          isClassicMode: true,
+          scoreClassicMode: score,
+        ));
+      }
+    } else if (gameNumber == 2) {
+      // AJOUTE UN DES DEUX JEUX DE REFLEXION
+      if (Random().nextBool()) {
+        listOfGames.add(FindItGame(
+          isClassicMode: true,
+          scoreClassicMode: score,
+        ));
+      } else {
+        listOfGames.add(FindItGame(
+          isClassicMode: true,
+          scoreClassicMode: score,
+        ));
+        // listOfGames.add(BallGame());
+      }
     }
     print("LIST OF GAMES : $listOfGames");
   }
@@ -76,8 +83,9 @@ class ClassicState extends State<Classic> {
     print("LE SCORE $gameScore");
     setState(() {
       score = gameScore;
-      if (currentGameIndex < listOfGames.length - 1) {
+      if (currentGameIndex < numberOfGames - 1) {
         currentGameIndex++;
+        initGames(currentGameIndex);
       } else {
         isClassicModeFinished = true;
       }

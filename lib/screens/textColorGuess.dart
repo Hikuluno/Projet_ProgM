@@ -46,8 +46,10 @@ class TextColorGuessState extends State<TextColorGuess> {
   @override
   void initState() {
     super.initState();
-    _scoreWidget = ScoreWidget(key: _scoreKey);
-    if (widget.isClassicMode) _scoreKey.currentState?.value = widget.scoreClassicMode;
+    _scoreWidget = ScoreWidget(
+      key: _scoreKey,
+      score: widget.scoreClassicMode,
+    );
 
     spawnTextColor();
   }
@@ -155,7 +157,9 @@ class TextColorGuessState extends State<TextColorGuess> {
                 : GestureDetector(
                     onTap: () {
                       startGame();
-                      _scoreKey.currentState!.resetScore();
+                      if (!widget.isClassicMode) {
+                        _scoreKey.currentState!.resetScore();
+                      }
                     },
                     child: Container(
                       color: Theme.of(context).primaryColor,

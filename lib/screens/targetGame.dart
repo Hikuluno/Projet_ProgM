@@ -34,13 +34,10 @@ class TargetGameState extends State<TargetGame> {
   @override
   void initState() {
     super.initState();
-    _scoreWidget = ScoreWidget(key: _scoreKey);
-    if (widget.isClassicMode) {
-      print("EN CLASSIC MODE UE : ${widget.scoreClassicMode}");
-      setState(() {
-        _scoreKey.currentState?.setScore(widget.scoreClassicMode);
-      });
-    }
+    _scoreWidget = ScoreWidget(
+      key: _scoreKey,
+      score: widget.scoreClassicMode,
+    );
   }
 
   @override
@@ -102,7 +99,6 @@ class TargetGameState extends State<TargetGame> {
                       spawnTarget();
                       startGame();
                       if (!widget.isClassicMode) {
-                        print('ue');
                         _scoreKey.currentState!.resetScore();
                       }
                     },

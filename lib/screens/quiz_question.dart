@@ -47,7 +47,10 @@ class _QuizPageState extends State<QuizPage> {
   void initState() {
     super.initState();
     _loadQuizData();
-    _scoreWidget = ScoreWidget(key: _scoreKey);
+    _scoreWidget = ScoreWidget(
+      key: _scoreKey,
+      score: widget.scoreClassicMode,
+    );
   }
 
   void _selectOption(int? optionIndex) {

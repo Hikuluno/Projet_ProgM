@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ScoreWidget extends StatefulWidget {
-  ScoreWidget({Key? key}) : super(key: key);
+  late int score;
+  ScoreWidget({Key? key, this.score = 0}) : super(key: key);
 
   @override
   ScoreWidgetState createState() => ScoreWidgetState();
@@ -13,7 +14,7 @@ class ScoreWidgetState extends State<ScoreWidget> {
   @override
   void initState() {
     super.initState();
-    _score = 0;
+    _score = widget.score;
   }
 
   resetScore() {

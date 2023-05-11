@@ -42,8 +42,10 @@ class FindItGameState extends State<FindItGame> {
   @override
   void initState() {
     super.initState();
-    _scoreWidget = ScoreWidget(key: _scoreKey);
-    if (widget.isClassicMode) _scoreKey.currentState?.value = widget.scoreClassicMode;
+    _scoreWidget = ScoreWidget(
+      key: _scoreKey,
+      score: widget.scoreClassicMode,
+    );
 
     characterToFind = charList[_random.nextInt(charList.length)];
   }
@@ -151,7 +153,9 @@ class FindItGameState extends State<FindItGame> {
                 : GestureDetector(
                     onTap: () {
                       startGame();
-                      _scoreKey.currentState!.resetScore();
+                      if (!widget.isClassicMode) {
+                        _scoreKey.currentState!.resetScore();
+                      }
                     },
                     child: Container(
                       color: Theme.of(context).primaryColor,
@@ -199,7 +203,7 @@ class FindItGameState extends State<FindItGame> {
     });
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       // Duration of the game
-      int duration = 30;
+      int duration = 15;
       if (timer.tick >= duration) {
         timer.cancel();
         // MODE CLASSIQUE
