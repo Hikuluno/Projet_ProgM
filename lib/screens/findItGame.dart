@@ -197,20 +197,20 @@ class FindItGameState extends State<FindItGame> {
                             style: TextStyle(
                                 fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(
-                            height: 32,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(24),
-                            child: Text(
-                              'Tap on the character in the crowd that matches the character displayed on top of the screen!',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 22,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
+                          // SizedBox(
+                          //   height: 32,
+                          // ),
+                          // Padding(
+                          //   padding: EdgeInsets.all(24),
+                          //   child: Text(
+                          //     'Tap on the character in the crowd that matches the character displayed on top of the screen!',
+                          //     textAlign: TextAlign.center,
+                          //     style: TextStyle(
+                          //       fontSize: 22,
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       )),
                     ),
