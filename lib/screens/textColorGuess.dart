@@ -4,9 +4,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import '../widgets/score.dart';
 import '../widgets/textColor.dart';
+import 'classic.dart';
 
 class TextColorGuess extends StatefulWidget {
-  const TextColorGuess({super.key});
+  final int scoreClassicMode;
+  final bool isMultiplayer;
+  final bool isClassicMode;
+  const TextColorGuess(
+      {super.key,
+      this.scoreClassicMode = 0,
+      this.isMultiplayer = false,
+      this.isClassicMode = true});
   @override
   TextColorGuessState createState() => TextColorGuessState();
 }
@@ -39,6 +47,8 @@ class TextColorGuessState extends State<TextColorGuess> {
   void initState() {
     super.initState();
     _scoreWidget = ScoreWidget(key: _scoreKey);
+    if (widget.isClassicMode) _scoreKey.currentState?.value = widget.scoreClassicMode;
+
     spawnTextColor();
   }
 
@@ -181,6 +191,11 @@ class TextColorGuessState extends State<TextColorGuess> {
       int duration = 15;
       if (timer.tick >= duration) {
         timer.cancel();
+        // MODE CLASSIQUE
+        if (widget.isClassicMode) {
+          ClassicState? classicState = context.findAncestorStateOfType<ClassicState>();
+          classicState?.switchToNextGame(_scoreKey.currentState!.getScore());
+        }
         setState(() {
           _isGameRunning = false;
           _isGameFinished = true;

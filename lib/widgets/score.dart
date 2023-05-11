@@ -26,6 +26,12 @@ class ScoreWidgetState extends State<ScoreWidget> {
     return _score;
   }
 
+  void setScore(int value) {
+    setState(() {
+      _score = value;
+    });
+  }
+
   set value(int newValue) {
     setState(() {
       _score = newValue;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/BricksBall/ball.dart';
+import 'package:flutter_application_1/screens/classic.dart';
 import 'package:flutter_application_1/screens/findItGame.dart';
 import 'package:flutter_application_1/screens/games.dart';
 import 'package:flutter_application_1/screens/solo_screen.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/solo': (context) => const SoloScreen(),
         '/multiplayer': (context) => const MultiplayerScreen(),
         '/games': (context) => const Games(),
+        '/classic': (context) => const Classic(),
         '/quiz': (context) => const QuizPage(),
         '/textColorGuess': (context) => const TextColorGuess(),
         '/targetGame': (context) => const TargetGame(),

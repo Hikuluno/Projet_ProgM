@@ -6,9 +6,17 @@ import 'package:flutter_application_1/widgets/findItCrowd.dart';
 import 'package:flutter_application_1/widgets/findItPicture.dart';
 import '../widgets/score.dart';
 import '../widgets/textColor.dart';
+import 'classic.dart';
 
 class FindItGame extends StatefulWidget {
-  const FindItGame({super.key});
+  final int scoreClassicMode;
+  final bool isMultiplayer;
+  final bool isClassicMode;
+  const FindItGame(
+      {super.key,
+      this.scoreClassicMode = 0,
+      this.isMultiplayer = false,
+      this.isClassicMode = false});
   @override
   FindItGameState createState() => FindItGameState();
 }
@@ -35,6 +43,8 @@ class FindItGameState extends State<FindItGame> {
   void initState() {
     super.initState();
     _scoreWidget = ScoreWidget(key: _scoreKey);
+    if (widget.isClassicMode) _scoreKey.currentState?.value = widget.scoreClassicMode;
+
     characterToFind = charList[_random.nextInt(charList.length)];
   }
 
@@ -192,6 +202,11 @@ class FindItGameState extends State<FindItGame> {
       int duration = 30;
       if (timer.tick >= duration) {
         timer.cancel();
+        // MODE CLASSIQUE
+        if (widget.isClassicMode) {
+          ClassicState? classicState = context.findAncestorStateOfType<ClassicState>();
+          classicState?.switchToNextGame(_scoreKey.currentState!.getScore());
+        }
         setState(() {
           _isGameRunning = false;
           _isGameFinished = true;

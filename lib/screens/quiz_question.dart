@@ -4,9 +4,17 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import '../widgets/score.dart';
+import 'classic.dart';
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({super.key});
+  final int scoreClassicMode;
+  final bool isMultiplayer;
+  final bool isClassicMode;
+  const QuizPage(
+      {super.key,
+      this.scoreClassicMode = 0,
+      this.isClassicMode = false,
+      this.isMultiplayer = false});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -54,6 +62,12 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void _nextQuestion() {
+    // MODE CLASSIQUE
+    if (widget.isClassicMode && _alreadyAnsweredQuestionIndex.length > 2) {
+      ClassicState? classicState = context.findAncestorStateOfType<ClassicState>();
+      classicState?.switchToNextGame(_scoreKey.currentState!.getScore());
+    }
+
     setState(() {
       _getRandomQuestion();
       _selectedOptionIndex = null; // Reset the selected option index
