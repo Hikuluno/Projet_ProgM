@@ -175,7 +175,6 @@ class FindItCrowdState extends State<FindItCrowd> {
                       onTap(_displayedCharList[i]);
                     },
                     child: FindItPicture(
-                      character: _displayedCharList[i],
                       opacity: opacity,
                       characterImage: _displayedCharImageList[i],
                     ),
@@ -192,7 +191,6 @@ class FindItCrowdState extends State<FindItCrowd> {
                       onTap(widget.uniqueCharacterImage);
                     },
                     child: FindItPicture(
-                      character: widget.uniqueCharacterImage,
                       characterImage:
                           _charListImage[_charList.indexOf(widget.uniqueCharacterImage)],
                     )),

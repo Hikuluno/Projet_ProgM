@@ -1,0 +1,5 @@
+Host : create group
+Guest : discover
+Guest : tap on logo and connect
+Host : open a socket
+Guest : connect to socket

@@ -2,26 +2,10 @@ import 'package:flutter/material.dart';
 
 class FindItPicture extends StatelessWidget {
   final double size;
-  late Image characterImage;
+  final Image characterImage;
   final double opacity;
 
-  FindItPicture(
-      {super.key,
-      this.size = 100,
-      String character = 'bluebaby',
-      this.opacity = 1,
-      required this.characterImage});
-  //     {
-  //   if (image == null) {
-  //     characterImage = Image.asset(
-  //       'assets/images/$character.png',
-  //       width: size,
-  //       fit: BoxFit.fitWidth,
-  //     );
-  //   } else {
-  //     characterImage = image!;
-  //   }
-  // }
+  const FindItPicture({super.key, this.size = 100, this.opacity = 1, required this.characterImage});
 
   @override
   Widget build(BuildContext context) {
