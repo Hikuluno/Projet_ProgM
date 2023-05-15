@@ -7,16 +7,20 @@ import 'package:flutter_application_1/BricksBall/player.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 import ' ballon.dart';
+import '../widgets/score.dart';
 import 'coverscreen.dart';
 
 class BallGame extends StatefulWidget {
-  const BallGame({Key? key}) : super(key: key);
+  final int scoreClassicMode;
+  const BallGame({Key? key, this.scoreClassicMode = 0}) : super(key: key);
 
   @override
   _BallGameState createState() => _BallGameState();
 }
 
 class _BallGameState extends State<BallGame> {
+  final GlobalKey<ScoreWidgetState> _scoreKey = GlobalKey();
+  late ScoreWidget _scoreWidget;
   // ball variables
   double ballX = 0;
   double ballY = 0;
@@ -37,8 +41,10 @@ class _BallGameState extends State<BallGame> {
   static double brickHeight = 0.05;
   static double bricksGap = 0.1;
   static int numberOfBricksInRow = 2;
-  static double wallGap =
-      0.5 * (2 - numberOfBricksInRow * brickWidth - (numberOfBricksInRow - 1) * bricksGap);
+  static double wallGap = 0.5 *
+      (2 -
+          numberOfBricksInRow * brickWidth -
+          (numberOfBricksInRow - 1) * bricksGap);
   bool brickBroken = false;
   bool allBricksBroken = false;
 
@@ -57,6 +63,10 @@ class _BallGameState extends State<BallGame> {
   void initState() {
     super.initState();
     startListening();
+    _scoreWidget = ScoreWidget(
+      key: _scoreKey,
+      score: widget.scoreClassicMode,
+    );
   }
 
   @override
@@ -113,6 +123,7 @@ class _BallGameState extends State<BallGame> {
           ballY < myBricks[i][1] + brickHeight &&
           myBricks[i][2] == false) {
         setState(() {
+          _scoreKey.currentState!.increment();
           myBricks[i][2] = true;
           allBricksBroken = allBricksBroken && myBricks[i][2];
 
@@ -122,7 +133,8 @@ class _BallGameState extends State<BallGame> {
           double topSideDist = (myBricks[i][1] - ballY).abs();
           double bottomSideDist = (myBricks[i][1] - brickHeight - ballY).abs();
 
-          String min = findMin(leftSideDist, rightSideDist, topSideDist, bottomSideDist);
+          String min =
+              findMin(leftSideDist, rightSideDist, topSideDist, bottomSideDist);
 
           switch (min) {
             case 'left':
@@ -203,6 +215,7 @@ class _BallGameState extends State<BallGame> {
       //up after player
       if (ballY >= 0.88 && ballX >= playerX && ballX <= playerX + playerWidth) {
         ballYDirection = "UP";
+        _scoreKey.currentState!.increment();
       }
       //down after top screen
       else if (ballY <= -1) {
@@ -223,6 +236,7 @@ class _BallGameState extends State<BallGame> {
   //rest game
   void resetGame() {
     setState(() {
+      _scoreKey.currentState!.resetScore();
       playerX = -0.2;
       ballX = 0;
       ballY = 0;
@@ -245,6 +259,9 @@ class _BallGameState extends State<BallGame> {
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: _scoreWidget,
+              ),
             ),
           ],
         ),
