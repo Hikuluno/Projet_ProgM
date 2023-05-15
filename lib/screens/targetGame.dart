@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../widgets/score.dart';
 import '../widgets/target.dart';
 import 'classic.dart';
+import 'classic_multiplayer.dart';
 
 class TargetGame extends StatefulWidget {
   final int scoreClassicMode;
@@ -149,6 +150,12 @@ class TargetGameState extends State<TargetGame> {
       });
       if (timer.tick >= duration) {
         timer.cancel();
+        // MODE CLASSIQUE MULTIJOUEUR
+        if (widget.isClassicMode && widget.isMultiplayer) {
+          ClassicMultiplayerState? classicState =
+              context.findAncestorStateOfType<ClassicMultiplayerState>();
+          classicState?.switchToNextGame(_scoreKey.currentState!.getScore());
+        }
         // MODE CLASSIQUE
         if (widget.isClassicMode) {
           ClassicState? classicState = context.findAncestorStateOfType<ClassicState>();

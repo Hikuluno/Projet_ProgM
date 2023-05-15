@@ -7,6 +7,7 @@ import 'package:flutter_application_1/widgets/findItPicture.dart';
 import '../widgets/score.dart';
 import '../widgets/textColor.dart';
 import 'classic.dart';
+import 'classic_multiplayer.dart';
 
 class FindItGame extends StatefulWidget {
   final int scoreClassicMode;
@@ -249,11 +250,20 @@ class FindItGameState extends State<FindItGame> {
       });
       if (timer.tick >= duration) {
         timer.cancel();
+        print("ueeifuhe");
+        // MODE CLASSIQUE MULTIJOUEUR
+        if (widget.isClassicMode && widget.isMultiplayer) {
+          print("stop");
+          ClassicMultiplayerState? classicState =
+              context.findAncestorStateOfType<ClassicMultiplayerState>();
+          classicState?.switchToNextGame(_scoreKey.currentState!.getScore());
+        }
         // MODE CLASSIQUE
         if (widget.isClassicMode) {
           ClassicState? classicState = context.findAncestorStateOfType<ClassicState>();
           classicState?.switchToNextGame(_scoreKey.currentState!.getScore());
         }
+
         setState(() {
           _isGameRunning = false;
           _isGameFinished = true;

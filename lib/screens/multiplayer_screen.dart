@@ -32,15 +32,13 @@ class MultiplayerScreenState extends State<MultiplayerScreen> with WidgetsBindin
   bool isGuest = true;
   bool isHost = true;
   bool launchClassic = false;
-  late ClassicMultiplayer classicMultiplayer;
-  late ClassicMultiplayerState classicMultiplayerState;
+  // static GlobalKey<ClassicMultiplayerState> globalKey = GlobalKey<ClassicMultiplayerState>();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _init();
-    classicMultiplayer = ClassicMultiplayer(isHost: isHost);
   }
 
   @override
@@ -191,7 +189,9 @@ class MultiplayerScreenState extends State<MultiplayerScreen> with WidgetsBindin
             ),
       body: launchClassic
           // LAUNCH CLASSIC IN MULTIPLAYER
-          ? classicMultiplayer
+          ? ClassicMultiplayer(
+              isHost: isHost,
+            )
           // MULTIPLAYER SCREEN
           : SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -422,7 +422,6 @@ class MultiplayerScreenState extends State<MultiplayerScreen> with WidgetsBindin
                                 showAcceptButton = true;
                                 isGuest = false;
                               });
-                              classicMultiplayer = ClassicMultiplayer(isHost: isHost);
                             },
                             child: const Text("Create a room"),
                           ),
@@ -470,7 +469,6 @@ class MultiplayerScreenState extends State<MultiplayerScreen> with WidgetsBindin
                                 showConfirmButton = true;
                                 isHost = false;
                               });
-                              classicMultiplayer = ClassicMultiplayer(isHost: isHost);
                             },
                             child: const Text("Search rooms"),
                           ),
@@ -487,13 +485,13 @@ class MultiplayerScreenState extends State<MultiplayerScreen> with WidgetsBindin
                           ),
                         ],
                       )),
-                  ElevatedButton(
-                      onPressed: () async {
-                        if (mounted) {
-                          sendMessage();
-                        }
-                      },
-                      child: const Text("send msg")),
+                  // ElevatedButton(
+                  //     onPressed: () async {
+                  //       if (mounted) {
+                  //         sendMessage();
+                  //       }
+                  //     },
+                  //     child: const Text("send msg")),
                   if (isHost && isConnected)
                     ElevatedButton(
                       onPressed: () async {
@@ -544,16 +542,16 @@ class MultiplayerScreenState extends State<MultiplayerScreen> with WidgetsBindin
       });
     } else if (msg == "synchronized") {
       print("synchronisation");
-      classicMultiplayerState = classicMultiplayer.classicMultiplayerKey.currentState!;
+
       setState(() {
-        classicMultiplayerState.synchronized = true;
+        // globalKey.currentState?.setSynchronized(true);
       });
     } else if (msg[0] == "[") {
       print("game config");
-      classicMultiplayerState = classicMultiplayer.classicMultiplayerKey.currentState!;
-      classicMultiplayerState.updateListOfGamesString(msg);
+      // globalKey.currentState?.updateListOfGamesString(msg);
+
       setState(() {
-        classicMultiplayerState.synchronized = true;
+        // globalKey.currentState?.setSynchronized(true);
       });
       sendMessage(msg: "synchronized");
     }

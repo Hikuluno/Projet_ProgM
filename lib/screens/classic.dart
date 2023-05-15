@@ -73,7 +73,6 @@ class ClassicState extends State<Classic> {
           isClassicMode: true,
           scoreClassicMode: score,
         ));
-        // listOfGames.add(BallGame());
       }
     }
     print("LIST OF GAMES : $listOfGames");

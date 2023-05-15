@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import '../widgets/score.dart';
 import 'classic.dart';
+import 'classic_multiplayer.dart';
 
 class QuizPage extends StatefulWidget {
   final int scoreClassicMode;
@@ -65,6 +66,12 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void _nextQuestion() {
+    // MODE CLASSIQUE MULTIJOUEUR
+    if (widget.isClassicMode && widget.isMultiplayer && _alreadyAnsweredQuestionIndex.length > 2) {
+      ClassicMultiplayerState? classicState =
+          context.findAncestorStateOfType<ClassicMultiplayerState>();
+      classicState?.switchToNextGame(_scoreKey.currentState!.getScore());
+    }
     // MODE CLASSIQUE
     if (widget.isClassicMode && _alreadyAnsweredQuestionIndex.length > 2) {
       ClassicState? classicState = context.findAncestorStateOfType<ClassicState>();

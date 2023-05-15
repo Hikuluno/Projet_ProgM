@@ -13,8 +13,6 @@ import 'package:flutter_application_1/widgets/target.dart';
 
 class ClassicMultiplayer extends StatefulWidget {
   bool isHost;
-  final GlobalKey<ClassicMultiplayerState> classicMultiplayerKey =
-      GlobalKey<ClassicMultiplayerState>();
 
   ClassicMultiplayer({super.key, required this.isHost});
 
@@ -42,26 +40,34 @@ class ClassicMultiplayerState extends State<ClassicMultiplayer> {
     MultiplayerScreenState? multiplayerState =
         context.findAncestorStateOfType<MultiplayerScreenState>();
 
+    initGamesString();
     if (isHost) {
-      initGamesString();
-      multiplayerState?.sendMessage(msg: listOfGamesString.toString());
+      // multiplayerState?.sendMessage(msg: listOfGamesString.toString());
     }
-    // waitForSynchronization();
+    // await waitForSynchronization();
 
     initGames(0);
   }
 
   void updateListOfGamesString(String value) {
     listOfGamesString = value.split(" ");
-    print('listgameupdated by socket');
+    print('listgameupdated by socket : ${listOfGamesString.toString()}');
+  }
+
+  void setSynchronized(bool synchro) {
+    print("synchronizzeeeeeeee");
+    synchronized = synchro;
   }
 
   Future<void> waitForSynchronization() async {
     int i = 0;
-    while (!synchronized || i < 10) {
+    while (!synchronized) {
       print('en attente synchronized');
       await Future.delayed(const Duration(milliseconds: 1000));
       i++;
+      if (i > 10) {
+        break; // Exit the loop if the condition is not met after 10 iterations
+      }
     }
   }
 
@@ -89,7 +95,6 @@ class ClassicMultiplayerState extends State<ClassicMultiplayer> {
       listOfGamesString.add("findIt");
     } else {
       listOfGamesString.add("findIt");
-      // listOfGamesString.add("ballGame");
     }
   }
 
@@ -98,33 +103,37 @@ class ClassicMultiplayerState extends State<ClassicMultiplayer> {
       // LE MODE CLASSIQUE COMMENCE TOUJOURS PAS LE QUIZZ
       listOfGames.add(const QuizPage(
         isClassicMode: true,
+        isMultiplayer: true,
       ));
     } else if (gameNumber == 1) {
       // AJOUTE UN DES DEUX JEUX D'AGILITE
       if (listOfGamesString[gameNumber] == "targetGame") {
-        listOfGames.add(TargetGame(
+        listOfGames.add(TextColorGuess(
           isClassicMode: true,
           scoreClassicMode: score,
+          isMultiplayer: true,
         ));
       } else {
         listOfGames.add(TextColorGuess(
           isClassicMode: true,
           scoreClassicMode: score,
+          isMultiplayer: true,
         ));
       }
     } else if (gameNumber == 2) {
       // AJOUTE UN DES DEUX JEUX DE REFLEXION
       if (listOfGamesString[gameNumber] == "findIt") {
-        listOfGames.add(FindItGame(
+        listOfGames.add(TargetGame(
           isClassicMode: true,
           scoreClassicMode: score,
+          isMultiplayer: true,
         ));
       } else {
-        listOfGames.add(FindItGame(
+        listOfGames.add(TargetGame(
           isClassicMode: true,
           scoreClassicMode: score,
+          isMultiplayer: true,
         ));
-        // listOfGames.add(BallGame());
       }
     }
     print("LIST OF GAMES : $listOfGames");
@@ -139,6 +148,7 @@ class ClassicMultiplayerState extends State<ClassicMultiplayer> {
         initGames(currentGameIndex);
       } else {
         isClassicModeFinished = true;
+        // multiplayerState?.sendMessage(msg: "Le score de votre adversaire est : $score");
       }
     });
   }
