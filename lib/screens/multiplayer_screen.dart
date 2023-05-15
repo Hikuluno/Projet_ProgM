@@ -489,6 +489,8 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
             if (isHost && isConnected)
               ElevatedButton(
                 onPressed: () async {
+                  sendMessage(msg: "classic");
+                  onReceiveString("classic");
                   print("start the classic mode");
                 },
                 style: ElevatedButton.styleFrom(
@@ -530,8 +532,11 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
       print("isHost && isConnected : ${isHost && isConnected}");
     }
     if (msg == "classic") {
-      isConnected = true;
-      print("isHost && isConnected : ${isHost && isConnected}");
+      print("launch classic mode");
+      Navigator.pushNamed(
+        context,
+        '/classic',
+      );
     }
   }
 }
