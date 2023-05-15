@@ -11,6 +11,7 @@ import 'package:flutter_application_1/widgets/target.dart';
 
 class Classic extends StatefulWidget {
   final bool isMultiplayer;
+
   const Classic({Key? key, this.isMultiplayer = false}) : super(key: key);
 
   @override
@@ -23,10 +24,12 @@ class ClassicState extends State<Classic> {
   int score = 0;
   bool isClassicModeFinished = false;
   int numberOfGames = 3;
+  late bool isMultiplayer;
 
   @override
   void initState() {
     super.initState();
+    isMultiplayer = widget.isMultiplayer;
     initGames(0);
   }
 
@@ -92,4 +95,10 @@ class ClassicState extends State<Classic> {
       }
     });
   }
+}
+
+class ClassicRouteArguments {
+  final bool isMultiplayer;
+
+  ClassicRouteArguments(this.isMultiplayer);
 }
