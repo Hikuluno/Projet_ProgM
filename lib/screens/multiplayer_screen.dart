@@ -26,7 +26,6 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
   StreamSubscription<WifiP2PInfo>? _streamWifiInfo;
   StreamSubscription<List<DiscoveredPeers>>? _streamPeers;
   bool showAcceptButton = false;
-  bool showDeleteButton = false;
   bool showConfirmButton = false;
   bool isConnected = false;
   bool isGuest = true;
@@ -407,13 +406,13 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
                     ElevatedButton(
                       onPressed: () async {
                         await askPermissions();
+                        await _flutterP2pConnectionPlugin.removeGroup();
                         bool? created = await _flutterP2pConnectionPlugin.createGroup();
                         snack("created group: $created");
 
                         // Afficher les boutons appropriés lorsque "Create a room" est appuyé
                         setState(() {
                           showAcceptButton = true;
-                          showDeleteButton = true;
                           isGuest = false;
                         });
                       },
@@ -425,14 +424,6 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
                           startSocket();
                         },
                         child: const Text("Accept connection"),
-                      ),
-                    if (showDeleteButton)
-                      ElevatedButton(
-                        onPressed: () async {
-                          bool? removed = await _flutterP2pConnectionPlugin.removeGroup();
-                          snack("removed group: $removed");
-                        },
-                        child: const Text("Delete created room"),
                       ),
                   ],
                 )),
@@ -470,7 +461,7 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
                     if (showConfirmButton)
                       ElevatedButton(
                         onPressed: () async {
-                          connectToSocket();
+                          await connectToSocket();
                           _flutterP2pConnectionPlugin.sendStringToSocket("connected");
                         },
                         child: const Text("Confirm connection"),
@@ -480,17 +471,30 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
                     ),
                   ],
                 )),
-            ElevatedButton(
-                onPressed: () async {
-                  sendMessage();
-                },
-                child: const Text("send msg")),
+            // ElevatedButton(
+            //     onPressed: () async {
+            //       sendMessage();
+            //     },
+            //     child: const Text("send msg")),
             if (isHost && isConnected)
               ElevatedButton(
-                  onPressed: () async {
-                    print("start the classic mode");
-                  },
-                  child: const Text("Start the game!")),
+                onPressed: () async {
+                  print("start the classic mode");
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Colors.red,
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                  textStyle: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ), // Couleur du texte du bouton
+                ),
+                child: const Text("Start the game!"),
+              ),
           ],
         ),
       ),
@@ -509,10 +513,9 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
   }
 
   void onReceiveString(String msg) {
-    print("JAI RECU UN MESSAGE");
     if (msg.toString() == "connected") {
       isConnected = true;
-      print("JE DEVRAIS ETRE CONNNECTE");
+      // print("isHost && isConnected : ${isHost && isConnected}");
     }
   }
 }
