@@ -10,7 +10,8 @@ import 'package:flutter_application_1/screens/textColorGuess.dart';
 import 'package:flutter_application_1/widgets/target.dart';
 
 class Classic extends StatefulWidget {
-  const Classic({Key? key}) : super(key: key);
+  final bool isMultiplayer;
+  const Classic({Key? key, this.isMultiplayer = false}) : super(key: key);
 
   @override
   ClassicState createState() => ClassicState();

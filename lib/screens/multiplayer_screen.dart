@@ -9,8 +9,6 @@ import 'dart:async';
 
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
 
-final _flutterP2pConnectionPlugin = FlutterP2pConnection();
-
 class MultiplayerScreen extends StatefulWidget {
   const MultiplayerScreen({super.key});
 
@@ -134,8 +132,12 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
     );
   }
 
-  Future sendMessage() async {
-    _flutterP2pConnectionPlugin.sendStringToSocket(msgText.text);
+  Future sendMessage({String msg = ""}) async {
+    if (msg == "") {
+      _flutterP2pConnectionPlugin.sendStringToSocket(msgText.text);
+    } else {
+      _flutterP2pConnectionPlugin.sendStringToSocket(msg);
+    }
   }
 
   Future sendFile(bool phone) async {
@@ -406,7 +408,6 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
                     ElevatedButton(
                       onPressed: () async {
                         await askPermissions();
-                        await _flutterP2pConnectionPlugin.removeGroup();
                         bool? created = await _flutterP2pConnectionPlugin.createGroup();
                         snack("created group: $created");
 
@@ -417,6 +418,13 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
                         });
                       },
                       child: const Text("Create a room"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        bool? removed = await _flutterP2pConnectionPlugin.removeGroup();
+                        snack("removed group: $removed");
+                      },
+                      child: const Text("Delete room"),
                     ),
                     if (showAcceptButton)
                       ElevatedButton(
@@ -462,7 +470,7 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
                       ElevatedButton(
                         onPressed: () async {
                           await connectToSocket();
-                          _flutterP2pConnectionPlugin.sendStringToSocket("connected");
+                          sendMessage(msg: "connected");
                         },
                         child: const Text("Confirm connection"),
                       ),
@@ -471,11 +479,13 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
                     ),
                   ],
                 )),
-            // ElevatedButton(
-            //     onPressed: () async {
-            //       sendMessage();
-            //     },
-            //     child: const Text("send msg")),
+            ElevatedButton(
+                onPressed: () async {
+                  if (mounted) {
+                    sendMessage();
+                  }
+                },
+                child: const Text("send msg")),
             if (isHost && isConnected)
               ElevatedButton(
                 onPressed: () async {
@@ -513,9 +523,15 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
   }
 
   void onReceiveString(String msg) {
-    if (msg.toString() == "connected") {
+    if (msg == "connected") {
+      setState(() {
+        isConnected = true;
+      });
+      print("isHost && isConnected : ${isHost && isConnected}");
+    }
+    if (msg == "classic") {
       isConnected = true;
-      // print("isHost && isConnected : ${isHost && isConnected}");
+      print("isHost && isConnected : ${isHost && isConnected}");
     }
   }
 }
