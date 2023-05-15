@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/classic_multiplayer.dart';
 import 'dart:async';
 
 import 'package:flutter_p2p_connection/flutter_p2p_connection.dart';
@@ -15,10 +16,10 @@ class MultiplayerScreen extends StatefulWidget {
   const MultiplayerScreen({super.key});
 
   @override
-  State<MultiplayerScreen> createState() => _MultiplayerScreen();
+  State<MultiplayerScreen> createState() => MultiplayerScreenState();
 }
 
-class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObserver {
+class MultiplayerScreenState extends State<MultiplayerScreen> with WidgetsBindingObserver {
   final TextEditingController msgText = TextEditingController();
   final _flutterP2pConnectionPlugin = FlutterP2pConnection();
   List<DiscoveredPeers> peers = [];
@@ -31,12 +32,15 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
   bool isGuest = true;
   bool isHost = true;
   bool launchClassic = false;
+  late ClassicMultiplayer classicMultiplayer;
+  late ClassicMultiplayerState classicMultiplayerState;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _init();
+    classicMultiplayer = ClassicMultiplayer(isHost: isHost);
   }
 
   @override
@@ -180,11 +184,15 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Multiplayer'),
-      ),
+      appBar: launchClassic
+          ? null
+          : AppBar(
+              title: const Text('Multiplayer'),
+            ),
       body: launchClassic
-          ? const Classic(isMultiplayer: true)
+          // LAUNCH CLASSIC IN MULTIPLAYER
+          ? classicMultiplayer
+          // MULTIPLAYER SCREEN
           : SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
@@ -212,15 +220,6 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text("name: ${peers[index].deviceName}"),
-                                        Text("address: ${peers[index].deviceAddress}"),
-                                        Text("isGroupOwner: ${peers[index].isGroupOwner}"),
-                                        Text(
-                                            "isServiceDiscoveryCapable: ${peers[index].isServiceDiscoveryCapable}"),
-                                        Text(
-                                            "primaryDeviceType: ${peers[index].primaryDeviceType}"),
-                                        Text(
-                                            "secondaryDeviceType: ${peers[index].secondaryDeviceType}"),
-                                        Text("status: ${peers[index].status}"),
                                       ],
                                     ),
                                   ),
@@ -423,6 +422,7 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
                                 showAcceptButton = true;
                                 isGuest = false;
                               });
+                              classicMultiplayer = ClassicMultiplayer(isHost: isHost);
                             },
                             child: const Text("Create a room"),
                           ),
@@ -470,6 +470,7 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
                                 showConfirmButton = true;
                                 isHost = false;
                               });
+                              classicMultiplayer = ClassicMultiplayer(isHost: isHost);
                             },
                             child: const Text("Search rooms"),
                           ),
@@ -536,12 +537,25 @@ class _MultiplayerScreen extends State<MultiplayerScreen> with WidgetsBindingObs
         isConnected = true;
       });
       print("isHost && isConnected : ${isHost && isConnected}");
-    }
-    if (msg == "classic") {
+    } else if (msg == "classic") {
       print("launch classic mode");
       setState(() {
         launchClassic = true;
       });
+    } else if (msg == "synchronized") {
+      print("synchronisation");
+      classicMultiplayerState = classicMultiplayer.classicMultiplayerKey.currentState!;
+      setState(() {
+        classicMultiplayerState.synchronized = true;
+      });
+    } else if (msg[0] == "[") {
+      print("game config");
+      classicMultiplayerState = classicMultiplayer.classicMultiplayerKey.currentState!;
+      classicMultiplayerState.updateListOfGamesString(msg);
+      setState(() {
+        classicMultiplayerState.synchronized = true;
+      });
+      sendMessage(msg: "synchronized");
     }
   }
 }

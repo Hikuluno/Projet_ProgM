@@ -24,6 +24,7 @@ class _BallGameState extends State<BallGame> {
   double ballYIncrement = 0.005;
   var ballYDirection = "DOWN";
   var ballXDirection = "LEFT";
+  late Timer _timer;
 
   // player variables
   double playerX = 0.2;
@@ -36,10 +37,8 @@ class _BallGameState extends State<BallGame> {
   static double brickHeight = 0.05;
   static double bricksGap = 0.1;
   static int numberOfBricksInRow = 2;
-  static double wallGap = 0.5 *
-      (2 -
-          numberOfBricksInRow * brickWidth -
-          (numberOfBricksInRow - 1) * bricksGap);
+  static double wallGap =
+      0.5 * (2 - numberOfBricksInRow * brickWidth - (numberOfBricksInRow - 1) * bricksGap);
   bool brickBroken = false;
   bool allBricksBroken = false;
 
@@ -64,6 +63,7 @@ class _BallGameState extends State<BallGame> {
   void dispose() {
     stopListening();
     super.dispose();
+    _timer.cancel();
   }
 
   void startListening() {
@@ -86,7 +86,7 @@ class _BallGameState extends State<BallGame> {
 
   void startGame() {
     hasGameStarted = true;
-    Timer.periodic(const Duration(milliseconds: 10), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
       //update direction
       updateDirection();
 
@@ -122,8 +122,7 @@ class _BallGameState extends State<BallGame> {
           double topSideDist = (myBricks[i][1] - ballY).abs();
           double bottomSideDist = (myBricks[i][1] - brickHeight - ballY).abs();
 
-          String min =
-              findMin(leftSideDist, rightSideDist, topSideDist, bottomSideDist);
+          String min = findMin(leftSideDist, rightSideDist, topSideDist, bottomSideDist);
 
           switch (min) {
             case 'left':
@@ -241,6 +240,14 @@ class _BallGameState extends State<BallGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text('Brick Ball'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+            ),
+          ],
+        ),
         backgroundColor: Colors.deepOrange[100],
         body: Center(
           child: Stack(
